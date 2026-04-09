@@ -1,0 +1,649 @@
+/* ============================================================
+   RESTAURANTE ONLINE — CSS COMPLETO
+   Tema: Dark Modern com acentos em vermelho e âmbar
+   Fonte: Bebas Neue (display) + DM Sans (corpo)
+   ============================================================ */
+
+/* ── 1. GOOGLE FONTS ──────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+
+/* ── 2. VARIÁVEIS CSS ─────────────────────────────────────── */
+:root {
+  /* Paleta principal */
+  --clr-bg:           #0d0d0d;
+  --clr-surface:      #181818;
+  --clr-surface-alt:  #1f1f1f;
+  --clr-border:       rgba(255,255,255,0.07);
+
+  /* Destaque principal — vermelho escuro */
+  --clr-primary:      #c0392b;
+  --clr-primary-glow: rgba(192, 57, 43, 0.35);
+  --clr-primary-dark: #96281b;
+
+  /* Destaque secundário — âmbar escuro */
+  --clr-accent:       #d4860a;
+  --clr-accent-light: #f0a830;
+
+  /* Texto */
+  --clr-text:         #f0ece4;
+  --clr-text-muted:   #8a8a8a;
+  --clr-text-invert:  #0d0d0d;
+
+  /* Footer */
+  --clr-footer-bg:    #f5f3ef;
+  --clr-footer-text:  #1a1a1a;
+  --clr-footer-muted: #5c5c5c;
+  --clr-footer-divider: #d0ccc5;
+
+  /* Tipografia */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-body:    'DM Sans', sans-serif;
+
+  /* Espaçamentos */
+  --space-xs:   0.4rem;
+  --space-sm:   0.75rem;
+  --space-md:   1.25rem;
+  --space-lg:   2rem;
+  --space-xl:   3.5rem;
+  --space-2xl:  5rem;
+
+  /* Raios */
+  --radius-sm:  6px;
+  --radius-md:  14px;
+  --radius-lg:  22px;
+  --radius-pill: 999px;
+
+  /* Sombras */
+  --shadow-card:    0 8px 32px rgba(0,0,0,0.55);
+  --shadow-hover:   0 18px 48px rgba(0,0,0,0.7);
+  --shadow-btn:     0 4px 18px var(--clr-primary-glow);
+
+  /* Transições */
+  --transition-fast:   150ms ease;
+  --transition-base:   280ms ease;
+  --transition-slow:   450ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Dimensões do banner principal — 100% × 620px */
+  --banner-height: 620px;
+
+  /* Dimensões dos cards — 250–280px × 300px */
+  --card-width-min: 250px;
+  --card-width-max: 280px;
+  --card-height:    300px;
+
+  /* Altura da imagem dentro do card — 150px */
+  --card-img-height: 150px;
+
+  /* Banners menores (fora dos cards) — altura 150–200px */
+  --banner-small-height: 170px;
+
+  /* Navbar */
+  --navbar-height: 90px;
+}
+
+
+/* ── 3. RESET / GLOBAL ────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+
+/* ── 4. HEADER / NAVBAR ───────────────────────────────────── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  /* linha sutil de separação no scroll */
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  background: rgba(13, 13, 13, 0.88);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  height: var(--navbar-height);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+}
+
+/* Logo — fix 1: maior | fix 5: elemento <a> */
+.logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.logo img {
+  height: 150px;
+  width: auto;
+  object-fit: contain;
+  transition: opacity var(--transition-fast);
+}
+.logo img:hover {
+  opacity: 0.82;
+}
+
+/* Links de navegação */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.nav-links li a {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+  position: relative;
+  padding-bottom: 2px;
+  transition: color var(--transition-fast);
+}
+
+.nav-links li a::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--clr-primary);
+  border-radius: var(--radius-pill);
+  transition: width var(--transition-base);
+}
+
+.nav-links li a:hover {
+  color: var(--clr-text);
+}
+.nav-links li a:hover::after {
+  width: 100%;
+}
+
+/* Botões de ação na navbar — fix 2: dois botões distintos */
+.nav-action {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Botão "Entrar" — ghost/outline */
+.btn-login {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.52rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--clr-text);
+  background: transparent;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-base),
+    color var(--transition-base),
+    background var(--transition-base),
+    transform var(--transition-fast);
+}
+.btn-login:hover {
+  border-color: var(--clr-text);
+  color: var(--clr-text);
+  background: rgba(255,255,255,0.08);
+  transform: translateY(-1px);
+}
+
+/* Botão "Criar conta" — sólido vermelho */
+.btn-cadastro {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.52rem 1.25rem;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--clr-text);
+  background: var(--clr-primary);
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  box-shadow: var(--shadow-btn);
+  transition:
+    background var(--transition-base),
+    color var(--transition-base),
+    border-color var(--transition-base),
+    box-shadow var(--transition-base),
+    transform var(--transition-fast);
+}
+.btn-cadastro:hover {
+  background: transparent;
+  color: var(--clr-primary);
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 0 4px var(--clr-primary-glow);
+  transform: translateY(-1px);
+}
+.btn-cadastro:active {
+  transform: translateY(0);
+}
+
+
+/* ── 5. SEÇÃO PROMOÇÕES ───────────────────────────────────── */
+.promocoes {
+  position: relative;
+  padding-bottom: var(--space-2xl);
+}
+
+
+/* ── 6. BANNER PRINCIPAL (100% × 400px) ──────────────────── */
+/*
+   Dimensões fixas:
+     largura : 100%
+     altura  : 400px  (var --banner-height)
+   Imagem usa object-fit: cover para preencher sem distorção.
+   Overlay com gradiente para fundir com o background.
+*/
+.banner-principal {
+  position: relative;
+  width: 100%;
+  height: var(--banner-height); /* 400px */
+  overflow: hidden;
+}
+
+.banner-principal::after {
+  /*
+     Overlay degradê — de baixo para cima.
+     A parte inferior funde completamente com --clr-bg (#0d0d0d),
+     criando a ilusão de que o banner "dissolve" no fundo da página.
+  */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    var(--clr-bg) 0%,        /* fundo sólido na borda inferior */
+    rgba(13,13,13,0.72) 25%, /* transição forte */
+    rgba(13,13,13,0.18) 60%, /* meio transparente */
+    transparent 100%         /* topo completamente transparente */
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.banner-principal a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.banner-principal img {
+  width: 100%;
+  height: 100%; /* 400px */
+  object-fit: cover;
+  object-position: center;
+  transition: transform var(--transition-slow);
+}
+
+.banner-principal:hover img {
+  transform: scale(1.025);
+}
+
+
+/* ── 7. GRID DE CATEGORIAS ────────────────────────────────── */
+/*
+   Grade de 3 colunas iguais.
+   .card-promo--lg ocupa as 3 colunas (1 grande no topo).
+   .card-promo--sm ocupa 1 coluna cada (3 pequenos lado a lado abaixo).
+   Resultado visual: [    grande    ] / [sm] [sm] [sm]
+*/
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 var(--space-lg);
+  position: relative;
+  z-index: 10;
+  margin-top: -120px;
+}
+
+
+/* ── 8. CARDS DE CATEGORIA ───────────────────────────────── */
+/*
+   card-promo--lg : largura total (2 colunas) × 340px de altura
+   card-promo--sm : 1 coluna × 260px de altura
+   Imagem: fix 3 — ocupa ~70% da altura do card
+   card-label: fix 3 — texto vermelho na faixa escura inferior
+*/
+.card-promo {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+/* Card GRANDE — ocupa as 3 colunas */
+.card-promo--lg {
+  grid-column: span 3;
+  height: 380px;
+}
+
+/* Card PEQUENO — 1 coluna cada */
+.card-promo--sm {
+  grid-column: span 1;
+  height: 280px;
+}
+
+.card-promo:hover {
+  transform: translateY(-6px) scale(1.012);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--clr-primary);
+}
+
+/* Imagem do card — fix 3: maior, ocupa ~72% */
+.card-promo img {
+  width: 100%;
+  flex: 1;               /* cresce para preencher o espaço disponível */
+  object-fit: cover;
+  object-position: center;
+  min-height: 0;
+  transition: transform var(--transition-slow);
+}
+
+.card-promo:hover img {
+  transform: scale(1.06);
+}
+
+/* Faixa escura inferior com o nome — fix 3 */
+.card-label {
+  display: block;
+  flex-shrink: 0;
+  padding: 0.75rem 1.25rem;
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--clr-primary);            /* vermelho */
+  background: var(--clr-surface);      /* fundo escuro */
+  border-top: 2px solid var(--clr-border);
+  text-align: center;
+  transition: color var(--transition-fast), background var(--transition-fast);
+}
+
+.card-promo:hover .card-label {
+  color: var(--clr-accent-light);
+  background: var(--clr-surface-alt);
+}
+
+/* Faixa de destaque no topo ao hover */
+.card-promo::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  z-index: 2;
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+.card-promo:hover::before {
+  opacity: 1;
+}
+
+
+/* ── 10. RODAPÉ — fix 6: centralizado, logo maior ────────── */
+footer {
+  background: var(--clr-footer-bg);
+  color: var(--clr-footer-text);
+  margin-top: var(--space-xl);
+}
+
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;          /* centraliza o conjunto */
+  gap: var(--space-xl);
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+/* Logo do footer — fix 6: maior */
+.footer-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.footer-logo img {
+  height: 150px;
+  width: auto;
+  object-fit: contain;
+  transition: opacity var(--transition-fast);
+}
+.footer-logo:hover img {
+  opacity: 0.8;
+}
+
+/* Linha divisória vertical */
+.footer-divider {
+  width: 1.5px;
+  height: 130px;
+  background: var(--clr-footer-divider);
+  flex-shrink: 0;
+}
+
+/* Coluna "Veja mais" — fix 6: centralizada verticalmente */
+.footer-links {
+  min-width: 160px;
+}
+
+.footer-links h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--clr-primary);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-xs);
+  border-bottom: 2px solid var(--clr-primary);
+  display: inline-block;
+}
+
+.footer-links ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.footer-links ul li a {
+  font-size: 0.87rem;
+  color: var(--clr-footer-muted);
+  transition: color var(--transition-fast), padding-left var(--transition-fast);
+}
+
+.footer-links ul li a:hover {
+  color: var(--clr-primary);
+  padding-left: 4px;
+}
+
+/* Rodapé inferior — copyright */
+.footer-bottom {
+  text-align: center;
+  padding: var(--space-md) var(--space-lg);
+  border-top: 1px solid var(--clr-footer-divider);
+  font-size: 0.78rem;
+  color: var(--clr-footer-muted);
+  letter-spacing: 0.03em;
+}
+
+
+/* ── 11. RESPONSIVIDADE ───────────────────────────────────── */
+
+/* ── Mobile — até 480px ────────────────────────────────────── */
+@media (max-width: 480px) {
+  :root {
+    --banner-height: 280px;
+    --navbar-height: 70px;
+  }
+
+  .navbar {
+    padding: 0 var(--space-md);
+    gap: var(--space-sm);
+  }
+
+  .logo img { height: 100px; }
+
+  .nav-links { display: none; }
+
+  .btn-login,
+  .btn-cadastro {
+    font-size: 0.72rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  /* Mobile: todos em 1 coluna */
+  .categorias {
+    grid-template-columns: 1fr;
+    margin-top: -50px;
+    padding: 0 var(--space-md);
+    gap: var(--space-sm);
+  }
+  .card-promo--lg,
+  .card-promo--sm {
+    grid-column: span 1;
+    height: 220px;
+  }
+
+  /* Footer em coluna */
+  .footer-container {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-lg) var(--space-md);
+  }
+  .footer-divider {
+    width: 80px;
+    height: 1.5px;
+  }
+  .footer-logo img { height: 100px; }
+}
+
+/* ── Tablet — 481px a 767px ───────────────────────────────── */
+@media (min-width: 481px) and (max-width: 767px) {
+  :root {
+    --banner-height: 420px;
+    --navbar-height: 80px;
+  }
+
+  .logo img { height: 120px; }
+
+  /* Tablet: lg span 2, sm 1 cada — 2 colunas */
+  .categorias {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: -80px;
+    padding: 0 var(--space-md);
+  }
+  .card-promo--lg {
+    grid-column: span 2;
+    height: 300px;
+  }
+  .card-promo--sm {
+    grid-column: span 1;
+    height: 220px;
+  }
+
+  .footer-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-lg);
+    padding: var(--space-xl) var(--space-md);
+  }
+  .footer-logo img { height: 120px; }
+  .footer-divider { height: 100px; }
+}
+
+/* ── Desktop — 768px a 1023px ─────────────────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root { --banner-height: 520px; }
+
+  .categorias { margin-top: -100px; }
+  .card-promo--lg { height: 340px; }
+  .card-promo--sm { height: 260px; }
+}
+
+/* ── Desktop grande — 1024px+ ─────────────────────────────── */
+@media (min-width: 1024px) {
+  .categorias { margin-top: -120px; }
+}
+
+/* ── Telas muito grandes — 1440px+ ───────────────────────── */
+@media (min-width: 1440px) {
+  :root { --banner-height: 720px; }
+  .card-promo--lg { height: 420px; }
+  .card-promo--sm { height: 310px; }
+}
+
+
+/* ── 12. ACESSIBILIDADE / REDUÇÃO DE MOVIMENTO ────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
