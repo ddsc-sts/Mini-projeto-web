@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cardápio - Faça seu Pedido</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="imagens/logo.png" alt="Logo do Restaurante">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cardapio.html">Cardápio</a></li>
+            </ul>
+            <div class="nav-action">
+                <a href="checkout.html" class="btn-login">Cadastro / Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container-cardapio">
+        
+        <section class="lista-produtos">
+            <h2>Nosso Cardápio</h2>
+            <p>Escolha seus pratos e adicione ao carrinho.</p>
+            
+            <div class="grade-produtos" id="vitrine-produtos">
+                
+                <div class="card-produto">
+                    <img src="imagens/pizza-calabresa.jpg" alt="Pizza de Calabresa">
+                    <div class="info-produto">
+                        <h3>Pizza Calabresa Defumada</h3>
+                        <p>Mussarela, calabresa defumada fatiada e cebola.</p>
+                        <span class="preco">R$ 54,90</span>
+                        <button class="btn-adicionar" data-id="1">Adicionar</button>
+                    </div>
+                </div>
+
+                <div class="card-produto">
+                    <img src="imagens/pizza-mussarela.jpg" alt="Pizza de Mussarela">
+                    <div class="info-produto">
+                        <h3>Pizza de Mussarela</h3>
+                        <p>A clássica e deliciosa pizza de mussarela com orégano.</p>
+                        <span class="preco">R$ 49,90</span>
+                        <button class="btn-adicionar" data-id="2">Adicionar</button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <aside class="carrinho-lateral">
+            <h2>Seu Pedido</h2>
+            
+            <ul class="itens-carrinho" id="lista-carrinho">
+                <li class="item-carrinho">
+                    <div class="detalhes-item">
+                        <span class="nome-item">Pizza Calabresa</span>
+                        <span class="preco-item">R$ 54,90</span>
+                    </div>
+                    <button class="btn-remover">Remover</button>
+                </li>
+            </ul>
+
+            <div class="resumo-carrinho">
+                <p><strong>Total:</strong> <span id="valor-total">R$ 54,90</span></p>
+                <a href="checkout.html" class="btn-finalizar">Avançar para Checkout</a>
+            </div>
+        </aside>
+
+    </main>
+
+    <footer>
+        <div class="footer-container" id="sobre-nos">
+            <div class="footer-logo">
+                <img src="imagens/logo.png" alt="Logo do Restaurante">
+            </div>
+            <div class="footer-info">
+                <h3>Sobre Nós</h3>
+                <p>Somos apaixonados por entregar a melhor comida direto na sua mesa. Ingredientes frescos e preparo rápido para garantir a sua satisfação.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Atendimento</h3>
+                <ul>
+                    <li><a href="index.html#sobre-nos">Nossa História</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nosso Restaurante. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

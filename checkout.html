@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finalizar Pedido - Checkout</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="imagens/logo.png" alt="Logo do Restaurante">
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cardapio.html">Cardápio</a></li>
+                <li><a href="sobre.html">Sobre Nós</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container-checkout">
+        <section class="formulario-pedido">
+            <h2>Finalize seu Pedido</h2>
+            <p>Preencha os dados abaixo para enviarmos o pedido para a sua mesa.</p>
+
+            <form id="form-checkout">
+                
+                <div class="grupo-form">
+                    <label for="nome">Nome Completo:</label>
+                    <input type="text" id="nome" placeholder="Digite seu nome" required>
+                </div>
+
+                <div class="grupo-form">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" placeholder="exemplo@email.com" required>
+                </div>
+
+                <div class="grupo-form">
+                    <label for="mesa">Número da Mesa:</label>
+                    <input type="number" id="mesa" min="1" max="50" placeholder="Ex: 12" required>
+                </div>
+
+                <div class="grupo-form">
+                    <label for="pagamento">Pagamento no Balcão:</label>
+                    <select id="pagamento" required>
+                        <option value="">Selecione uma opção...</option>
+                        <option value="pix">PIX</option>
+                        <option value="cartao">Cartão de Crédito/Débito</option>
+                        <option value="dinheiro">Dinheiro</option>
+                    </select>
+                </div>
+
+                <div id="mensagem-erro" class="msg-erro"></div>
+
+                <button type="submit" class="btn-enviar">Confirmar Pedido</button>
+            </form>
+        </section>
+
+        <aside class="resumo-checkout">
+            <h3>Resumo da Compra</h3>
+            <ul id="lista-resumo">
+                <li>Pizza Calabresa - R$ 54,90</li>
+            </ul>
+            <p><strong>Total a Pagar:</strong> <span id="total-checkout">R$ 54,90</span></p>
+        </aside>
+    </main>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-logo">
+                <img src="imagens/logo.png" alt="Logo do Restaurante">
+            </div>
+            <div class="footer-info">
+                <h3>Sobre Nós</h3>
+                <p>Ingredientes frescos e preparo rápido para garantir a sua satisfação.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Atendimento</h3>
+                <ul>
+                    <li><a href="sobre.html">Nossa História</a></li>
+                    <li><a href="#contato">Fale Conosco</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Nosso Restaurante. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
