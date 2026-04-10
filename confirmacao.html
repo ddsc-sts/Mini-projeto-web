@@ -3,67 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedido Confirmado - Nosso Restaurante</title>
+    <title>Pedido Confirmado - DALEGÉ</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="img/icons/favicon.png">
 </head>
 <body>
 
     <header>
         <nav class="navbar">
-            <div class="logo">
-                <img src="imagens/logo.png" alt="Logo do Restaurante">
-            </div>
+            <a href="index.html" class="logo">
+                <img src="img/icons/logo.png" alt="Logo do Restaurante">
+            </a>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="cardapio.html">Cardápio</a></li>
-                <li><a href="sobre.html">Sobre Nós</a></li>
             </ul>
+            <div class="nav-action">
+                <a href="login.html"    class="btn-login">Entrar</a>
+                <a href="cadastro.html" class="btn-cadastro">Criar conta</a>
+            </div>
         </nav>
     </header>
 
-    <main class="container-confirmacao">
-        <section class="mensagem-sucesso">
-            <div class="icone-check">
-                <img src="imagens/sucesso-icon.png" alt="Ícone de sucesso" width="80">
-            </div>
-            
-            <h2>Obrigado por pedir conosco, <span id="nome-cliente">Cliente</span>!</h2>
-            
-            <div class="destaque-pedido">
-                <p>O número do seu pedido é:</p>
-                <h1 id="numero-pedido">#0000</h1>
-            </div>
+    <main class="confirmacao-page">
+        <div class="confirmacao-card">
 
-            <p class="instrucoes-finais">
-                Seu pedido já foi recebido pela nossa cozinha e o garçom o levará até a sua mesa em breve. <br>
-                <strong>Lembre-se:</strong> O pagamento será realizado no balcão ao final da sua experiência.
+            <!-- ícone de check decorativo -->
+            <div class="confirmacao-check" aria-hidden="true">&#10003;</div>
+
+            <h1 class="confirmacao-titulo">Pedido Confirmado!</h1>
+
+            <p class="confirmacao-mensagem">
+                Obrigado por escolher a <strong>DALEGÉ</strong>.<br>
+                Seu pedido já está sendo preparado com carinho.<br>
+                Bom apetite!
             </p>
 
-            <a href="index.html" class="btn-voltar-home">Voltar para a Página Inicial</a>
-        </section>
+            <!-- bloco do número do pedido — JS preenche #numero-pedido -->
+            <div class="confirmacao-numero">
+                <span class="confirmacao-numero__label">Seu número de pedido</span>
+                <span class="confirmacao-numero__valor" id="numero-pedido">
+                    <!-- gerado pelo JS -->
+                </span>
+            </div>
+
+            <p class="confirmacao-instrucao">
+                Apresente este número no balcão para efetuar o pagamento
+                e retirar seu pedido.
+            </p>
+
+            <a href="cardapio.html" class="btn-cadastro confirmacao-btn">
+                Fazer Outro Pedido
+            </a>
+
+        </div>
     </main>
 
     <footer>
-        <div class="footer-container">
-            <div class="footer-logo">
-                <img src="imagens/logo.png" alt="Logo do Restaurante">
-            </div>
-            <div class="footer-info">
-                <h3>Sobre Nós</h3>
-                <p>Ingredientes frescos e preparo rápido para garantir a sua satisfação.</p>
-            </div>
+        <div class="footer-container" id="sobre-nos">
+            <a href="index.html" class="footer-logo">
+                <img src="img/icons/logo.png" alt="Logo do Restaurante">
+            </a>
+            <div class="footer-divider"></div>
             <div class="footer-links">
-                <h3>Atendimento</h3>
+                <h3>Veja mais</h3>
                 <ul>
+                    <li><a href="cardapio.html">Cardápio completo</a></li>
                     <li><a href="sobre.html">Nossa História</a></li>
-                    <li><a href="#contato">Fale Conosco</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Nosso Restaurante. Todos os direitos reservados.</p>
+            <p>&copy; 2026 DALEGÉ. Todos os direitos reservados.</p>
         </div>
     </footer>
 
+    <script src="js/confirmacao.js"></script>
 </body>
 </html>

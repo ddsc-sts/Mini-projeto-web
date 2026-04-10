@@ -3,98 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cardápio - Faça seu Pedido</title>
+    <title>DALEGÉ - Peça Agora</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="img/icons/favicon.png">
+
 </head>
 <body>
 
     <header>
         <nav class="navbar">
-            <div class="logo">
-                <img src="imagens/logo.png" alt="Logo do Restaurante">
-            </div>
+            <!-- fix 5: logo clicável → index.html -->
+            <a href="index.html" class="logo">
+                <img src="img/icons/logo.png" alt="Logo do Restaurante">
+            </a>
+
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="cardapio.html">Cardápio</a></li>
             </ul>
+
+            <!-- fix 2: dois botões separados -->
             <div class="nav-action">
-                <a href="checkout.html" class="btn-login">Cadastro / Login</a>
+                <a href="login.html"    class="btn-login">Entrar</a>
+                <a href="cadastro.html" class="btn-cadastro">Criar conta</a>
             </div>
         </nav>
     </header>
 
     <main class="container-cardapio">
-        
-        <section class="lista-produtos">
-            <h2>Nosso Cardápio</h2>
-            <p>Escolha seus pratos e adicione ao carrinho.</p>
-            
-            <div class="grade-produtos" id="vitrine-produtos">
-                
-                <div class="card-produto">
-                    <img src="imagens/pizza-calabresa.jpg" alt="Pizza de Calabresa">
-                    <div class="info-produto">
-                        <h3>Pizza Calabresa Defumada</h3>
-                        <p>Mussarela, calabresa defumada fatiada e cebola.</p>
-                        <span class="preco">R$ 54,90</span>
-                        <button class="btn-adicionar" data-id="1">Adicionar</button>
-                    </div>
-                </div>
 
-                <div class="card-produto">
-                    <img src="imagens/pizza-mussarela.jpg" alt="Pizza de Mussarela">
-                    <div class="info-produto">
-                        <h3>Pizza de Mussarela</h3>
-                        <p>A clássica e deliciosa pizza de mussarela com orégano.</p>
-                        <span class="preco">R$ 49,90</span>
-                        <button class="btn-adicionar" data-id="2">Adicionar</button>
-                    </div>
-                </div>
+        <!-- ── VITRINE DE PRODUTOS ─────────────────────────── -->
+        <section class="vitrine">
 
+            <div class="vitrine__cabecalho">
+                <h2 class="section-titulo">Nosso Cardápio</h2>
+                <p class="vitrine__desc">Escolha seus pratos e adicione ao carrinho.</p>
             </div>
+
+            <!--
+                JS popula os botões de categoria dinamicamente.
+                Estrutura esperada de cada botão injetado:
+
+                <button class="filtro-btn" data-categoria="pizzas">Pizzas</button>
+
+                O botão ativo recebe a classe adicional "filtro-btn--ativo".
+                Um botão "Todos" com data-categoria="todos" deve ser o primeiro.
+            -->
+            <div id="filtros-categorias" class="filtros" aria-label="Filtrar por categoria">
+                <!-- botões inseridos pelo JS -->
+            </div>
+
+            <!--
+                JS popula esta grade com os cards de produto.
+                Estrutura esperada de cada card injetado:
+
+                <article class="card-produto" data-id="1" data-categoria="pizzas">
+                    <div class="card-produto__img-wrap">
+                        <img src="img/produtos/pizza-calabresa.jpg"
+                             alt="Pizza Calabresa Defumada"
+                             class="card-produto__img">
+                    </div>
+                    <div class="card-produto__info">
+                        <h3 class="card-produto__nome">Pizza Calabresa Defumada</h3>
+                        <p  class="card-produto__desc">Mussarela, calabresa defumada fatiada e cebola.</p>
+                        <div class="card-produto__rodape">
+                            <span class="card-produto__preco">R$ 54,90</span>
+                            <button class="btn-adicionar" data-id="1">Adicionar</button>
+                        </div>
+                    </div>
+                </article>
+            -->
+            <div id="vitrine-produtos" class="grade-produtos">
+                <!-- cards inseridos pelo JS -->
+            </div>
+
+            <!-- exibido pelo JS quando nenhum produto bate com o filtro -->
+            <p id="vitrine-vazia" class="vitrine__vazia" hidden>
+                Nenhum produto encontrado nesta categoria.
+            </p>
+
         </section>
 
-        <aside class="carrinho-lateral">
-            <h2>Seu Pedido</h2>
-            
-            <ul class="itens-carrinho" id="lista-carrinho">
-                <li class="item-carrinho">
-                    <div class="detalhes-item">
-                        <span class="nome-item">Pizza Calabresa</span>
-                        <span class="preco-item">R$ 54,90</span>
+        <!-- ── CARRINHO LATERAL ────────────────────────────── -->
+        <aside class="carrinho-lateral" id="carrinho-lateral">
+
+            <h2 class="section-titulo">Seu Pedido</h2>
+
+            <!--
+                JS popula esta lista dinamicamente.
+                Estrutura esperada de cada item injetado:
+
+                <li class="item-carrinho" data-id="1">
+                    <div class="item-carrinho__info">
+                        <span class="item-carrinho__nome">Pizza Calabresa</span>
+                        <span class="item-carrinho__preco">R$ 54,90</span>
                     </div>
-                    <button class="btn-remover">Remover</button>
+                    <div class="item-carrinho__controles">
+                        <button class="item-carrinho__qtd-btn" data-acao="diminuir" data-id="1">−</button>
+                        <span   class="item-carrinho__qtd">1</span>
+                        <button class="item-carrinho__qtd-btn" data-acao="aumentar" data-id="1">+</button>
+                        <button class="btn-remover" data-id="1">Remover</button>
+                    </div>
                 </li>
+            -->
+            <ul id="lista-carrinho" class="itens-carrinho">
+                <!-- itens inseridos pelo JS -->
             </ul>
 
+            <!-- exibido pelo JS quando o carrinho está vazio -->
+            <p id="carrinho-vazio" class="carrinho-vazio">
+                Nenhum item adicionado ainda.
+            </p>
+
             <div class="resumo-carrinho">
-                <p><strong>Total:</strong> <span id="valor-total">R$ 54,90</span></p>
-                <a href="checkout.html" class="btn-finalizar">Avançar para Checkout</a>
+                <div class="resumo-carrinho__linha">
+                    <span class="resumo-carrinho__label">Total</span>
+                    <!-- valor atualizado pelo JS -->
+                    <span class="resumo-carrinho__valor" id="valor-total">R$ 0,00</span>
+                </div>
+                <!-- JS pode desabilitar este botão quando o carrinho estiver vazio -->
+                <a href="checkout.html" class="btn-cadastro btn-finalizar" id="btn-finalizar">
+                    Avançar para Checkout
+                </a>
             </div>
+
         </aside>
 
     </main>
 
     <footer>
         <div class="footer-container" id="sobre-nos">
-            <div class="footer-logo">
-                <img src="imagens/logo.png" alt="Logo do Restaurante">
-            </div>
-            <div class="footer-info">
-                <h3>Sobre Nós</h3>
-                <p>Somos apaixonados por entregar a melhor comida direto na sua mesa. Ingredientes frescos e preparo rápido para garantir a sua satisfação.</p>
-            </div>
+
+            <!-- fix 5 + fix 6: logo grande, centralizado, clicável -->
+            <a href="index.html" class="footer-logo">
+                <img src="img/icons/logo.png" alt="Logo do Restaurante">
+            </a>
+
+            <div class="footer-divider"></div>
+
             <div class="footer-links">
-                <h3>Atendimento</h3>
+                <h3>Veja mais</h3>
                 <ul>
-                    <li><a href="index.html#sobre-nos">Nossa História</a></li>
+                    <li><a href="cardapio.html">Cardápio completo</a></li>
+                    <li><a href="sobre.html">Nossa História</a></li>
                 </ul>
             </div>
+
         </div>
+
         <div class="footer-bottom">
-            <p>&copy; 2026 Nosso Restaurante. Todos os direitos reservados.</p>
+            <p>&copy; 2026 DALEGÉ. Todos os direitos reservados.</p>
         </div>
     </footer>
 
+    <script src="js/cardapio.js"></script>
 </body>
 </html>
