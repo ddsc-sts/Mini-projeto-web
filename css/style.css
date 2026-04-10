@@ -23,7 +23,7 @@
 
   /* Destaque secundário — âmbar escuro */
   --clr-accent:       #d4860a;
-  --clr-accent-light: #f0a830;
+  --clr-accent-light: #8b7c55;
 
   /* Texto */
   --clr-text:         #f0ece4;
@@ -34,7 +34,8 @@
   --clr-footer-bg:    #f5f3ef;
   --clr-footer-text:  #1a1a1a;
   --clr-footer-muted: #5c5c5c;
-  --clr-footer-divider: #d0ccc5;
+  --clr-footer-divider1: #d0ccc5;
+  --clr-footer-divider2: #96281b;
 
   /* Tipografia */
   --font-display: 'Bebas Neue', sans-serif;
@@ -151,7 +152,7 @@ header {
   flex-shrink: 0;
 }
 .logo img {
-  height: 150px;
+  height: 100px;
   width: auto;
   object-fit: contain;
   transition: opacity var(--transition-fast);
@@ -414,7 +415,7 @@ header {
   font-size: 1.25rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--clr-primary);            /* vermelho */
+  color: var(--clr-accent-light);            /* vermelho */
   background: var(--clr-surface);      /* fundo escuro */
   border-top: 2px solid var(--clr-border);
   text-align: center;
@@ -422,7 +423,7 @@ header {
 }
 
 .card-promo:hover .card-label {
-  color: var(--clr-accent-light);
+  color: var(--clr-primary);
   background: var(--clr-surface-alt);
 }
 
@@ -481,7 +482,7 @@ footer {
 .footer-divider {
   width: 1.5px;
   height: 130px;
-  background: var(--clr-footer-divider);
+  background: var(--clr-footer-divider2);
   flex-shrink: 0;
 }
 
@@ -523,7 +524,7 @@ footer {
 .footer-bottom {
   text-align: center;
   padding: var(--space-md) var(--space-lg);
-  border-top: 1px solid var(--clr-footer-divider);
+  border-top: 1px solid var(--clr-footer-divider1);
   font-size: 0.78rem;
   color: var(--clr-footer-muted);
   letter-spacing: 0.03em;
