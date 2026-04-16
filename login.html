@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - DALEGÉ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="img/icons/favicon.png">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <img src="img/icons/logo.png" alt="Logo do Restaurante">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cardapio.html">Cardápio</a></li>
+            </ul>
+            <div class="nav-action">
+                <a href="login.html"    class="btn-login">Entrar</a>
+                <a href="cadastro.html" class="btn-cadastro">Criar conta</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="auth-page">
+        <div class="auth-card">
+
+            <!-- logo dentro do card -->
+            <a href="index.html" class="auth-card__logo">
+                <img src="img/icons/logo.png" alt="Logo DALEGÉ">
+            </a>
+
+            <h1 class="auth-card__titulo">Bem-vindo de volta</h1>
+            <p class="auth-card__subtitulo">Entre na sua conta para continuar.</p>
+
+            <form id="form-login" class="auth-form" novalidate>
+
+                <div class="campo">
+                    <label class="campo__label" for="email">E-mail</label>
+                    <input class="campo__input" type="email" id="email"
+                           placeholder="exemplo@email.com" required>
+                </div>
+
+                <div class="campo">
+                    <label class="campo__label" for="senha">Senha</label>
+                    <input class="campo__input" type="password" id="senha"
+                           placeholder="Sua senha" required>
+                </div>
+
+                <!-- mensagem de erro — preenchida e exibida pelo JS -->
+                <p id="mensagem-erro" class="checkout-erro" aria-live="polite" hidden></p>
+
+                <button type="submit" class="btn-cadastro auth-submit">Entrar</button>
+
+            </form>
+
+            <p class="auth-card__rodape">
+                Não tem uma conta?
+                <a href="cadastro.html" class="auth-card__link">Criar conta</a>
+            </p>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container" id="sobre-nos">
+            <a href="index.html" class="footer-logo">
+                <img src="img/icons/logo.png" alt="Logo do Restaurante">
+            </a>
+            <div class="footer-divider"></div>
+            <div class="footer-links">
+                <h3>Veja mais</h3>
+                <ul>
+                    <li><a href="cardapio.html">Cardápio completo</a></li>
+                    <li><a href="sobre.html">Nossa História</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 DALEGÉ. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/navbar.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>

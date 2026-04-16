@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Nós - DALEGÉ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="img/icons/favicon.png">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <!-- fix 5: logo clicável → index.html -->
+            <a href="index.html" class="logo">
+                <img src="img/icons/logo.png" alt="Logo do Restaurante">
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cardapio.html">Cardápio</a></li>
+            </ul>
+
+            <!-- fix 2: dois botões separados -->
+            <div class="nav-action">
+                <a href="login.html"    class="btn-login">Entrar</a>
+                <a href="cadastro.html" class="btn-cadastro">Criar conta</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+
+        <section class="sobre-hero">
+            <h1 class="sobre-hero__titulo">Nossa <span>História</span></h1>
+            <p class="sobre-hero__subtitulo">Conheça a paixão que está por trás de cada prato.</p>
+        </section>
+
+        <div class="container-sobre">
+
+            <section class="historia">
+                <h2 class="section-titulo">Quem somos</h2>
+
+                <img src="img/icons/logo.png" alt="Logo DALEGÉ" class="img-sobre">
+
+                <p class="historia__texto">
+                    Fundado com a paixão por entregar a verdadeira experiência gastronômica,
+                    o <strong>DALEGÉ</strong> nasceu da ideia de unir sabor, qualidade e tecnologia.
+                    Percebemos que nossos clientes queriam mais agilidade na hora de fazer seus
+                    pedidos, e por isso criamos este Cardápio Digital.
+                </p>
+
+                <p class="historia__texto">
+                    Trabalhamos apenas com ingredientes selecionados, massas frescas e um
+                    atendimento focado em você. Seja para um jantar rápido após o trabalho ou
+                    uma comemoração com os amigos, nossa missão é garantir que a sua mesa
+                    esteja sempre cheia de alegria e boa comida.
+                </p>
+            </section>
+
+            <section class="valores">
+                <h3 class="section-titulo">Nossos Valores</h3>
+                <ul class="valores__grid">
+                    <li class="card-promo card-valor">
+                        <strong class="card-label">Qualidade</strong>
+                        <p class="card-valor__texto">Ingredientes frescos selecionados todos os dias.</p>
+                    </li>
+                    <li class="card-promo card-valor">
+                        <strong class="card-label">Agilidade</strong>
+                        <p class="card-valor__texto">Seu pedido na mesa no tempo certo, sempre.</p>
+                    </li>
+                    <li class="card-promo card-valor">
+                        <strong class="card-label">Inovação</strong>
+                        <p class="card-valor__texto">Tecnologia para facilitar a sua experiência.</p>
+                    </li>
+                </ul>
+            </section>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-container" id="sobre-nos">
+
+            <!-- fix 5 + fix 6: logo grande, centralizado, clicável -->
+            <a href="index.html" class="footer-logo">
+                <img src="img/icons/logo.png" alt="Logo do Restaurante">
+            </a>
+
+            <div class="footer-divider"></div>
+
+            <div class="footer-links">
+                <h3>Veja mais</h3>
+                <ul>
+                    <li><a href="cardapio.html">Cardápio completo</a></li>
+                    <li><a href="sobre.html">Nossa História</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 DALEGÉ. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
