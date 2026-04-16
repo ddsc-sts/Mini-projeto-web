@@ -2,6 +2,7 @@
    RESTAURANTE ONLINE — CSS COMPLETO
    Tema: Dark Modern com acentos em vermelho e âmbar
    Fonte: Bebas Neue (display) + DM Sans (corpo)
+   Adaptado para PC e Mobile
    ============================================================ */
 
 /* ── 1. GOOGLE FONTS ──────────────────────────────────────── */
@@ -65,18 +66,16 @@
   --transition-base:   280ms ease;
   --transition-slow:   450ms cubic-bezier(0.22, 1, 0.36, 1);
 
-  /* Dimensões do banner principal — 100% × 620px */
+  /* Dimensões do banner principal */
   --banner-height: 620px;
 
-  /* Dimensões dos cards — 250–280px × 300px */
+  /* Dimensões dos cards */
   --card-width-min: 250px;
   --card-width-max: 280px;
   --card-height:    300px;
-
-  /* Altura da imagem dentro do card — 150px */
   --card-img-height: 150px;
 
-  /* Banners menores (fora dos cards) — altura 150–200px */
+  /* Banners menores */
   --banner-small-height: 170px;
 
   /* Navbar */
@@ -98,12 +97,21 @@ html {
   font-size: 16px;
 }
 
+/* Previne zoom indesejado em inputs no iOS */
+@supports (-webkit-touch-callout: none) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--clr-bg);
   color: var(--clr-text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  /* Evita scroll horizontal acidental no mobile */
+  overflow-x: hidden;
 }
 
 img {
@@ -121,13 +129,17 @@ ul {
   list-style: none;
 }
 
+/* Melhora o tap target em mobile para links e botões */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 
 /* ── 4. HEADER / NAVBAR ───────────────────────────────────── */
 header {
   position: sticky;
   top: 0;
   z-index: 100;
-  /* linha sutil de separação no scroll */
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   background: rgba(13, 13, 13, 0.88);
@@ -145,7 +157,7 @@ header {
   padding: 0 var(--space-lg);
 }
 
-/* Logo — fix 1: maior | fix 5: elemento <a> */
+/* Logo */
 .logo {
   display: flex;
   align-items: center;
@@ -157,9 +169,7 @@ header {
   object-fit: contain;
   transition: opacity var(--transition-fast);
 }
-.logo img:hover {
-  opacity: 0.82;
-}
+.logo img:hover { opacity: 0.82; }
 
 /* Links de navegação */
 .nav-links {
@@ -191,14 +201,10 @@ header {
   transition: width var(--transition-base);
 }
 
-.nav-links li a:hover {
-  color: var(--clr-text);
-}
-.nav-links li a:hover::after {
-  width: 100%;
-}
+.nav-links li a:hover { color: var(--clr-text); }
+.nav-links li a:hover::after { width: 100%; }
 
-/* Botões de ação na navbar — fix 2: dois botões distintos */
+/* Botões de ação na navbar */
 .nav-action {
   flex-shrink: 0;
   display: flex;
@@ -264,8 +270,416 @@ header {
   box-shadow: 0 0 0 4px var(--clr-primary-glow);
   transform: translateY(-1px);
 }
-.btn-cadastro:active {
-  transform: translateY(0);
+.btn-cadastro:active { transform: translateY(0); }
+
+
+/* ────────────────────────────────────────────────────────────
+   MENU HAMBURGUER (mobile) - VERSÃO MELHORADA
+   ──────────────────────────────────────────────────────────── */
+
+/* Botão Hamburguer - Base */
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  width: 48px;
+  height: 48px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  padding: 8px;
+  flex-shrink: 0;
+  z-index: 200;
+  transition: 
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+  
+  /* Melhor feedback tátil */
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Hover e Focus - Desktop */
+@media (hover: hover) {
+  .nav-toggle:hover {
+    background: rgba(192, 57, 43, 0.1);
+    border-color: var(--clr-primary-glow);
+  }
+  
+  .nav-toggle:hover .nav-toggle__bar {
+    background: var(--clr-primary);
+  }
+}
+
+.nav-toggle:focus-visible {
+  outline: 3px solid var(--clr-primary);
+  outline-offset: 2px;
+  border-color: transparent;
+}
+
+/* Barras do hamburguer */
+.nav-toggle__bar {
+  display: block;
+  width: 26px;
+  height: 3px;
+  background: var(--clr-text);
+  border-radius: var(--radius-pill);
+  transition: 
+    transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55),
+    opacity 0.2s ease,
+    background 0.2s ease;
+  transform-origin: center;
+  will-change: transform, opacity;
+}
+
+/* Barra do meio um pouco mais curta (estilo moderno) */
+.nav-toggle__bar:nth-child(2) {
+  width: 20px;
+  margin-left: auto;
+}
+
+/* Animação para X - Versão melhorada */
+.nav-toggle.aberto .nav-toggle__bar {
+  background: var(--clr-primary);
+}
+
+.nav-toggle.aberto .nav-toggle__bar:nth-child(1) {
+  transform: translateY(9px) rotate(45deg);
+}
+
+.nav-toggle.aberto .nav-toggle__bar:nth-child(2) {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.nav-toggle.aberto .nav-toggle__bar:nth-child(3) {
+  transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Estado ativo (enquanto pressionado) */
+.nav-toggle:active {
+  background: rgba(192, 57, 43, 0.2);
+  transform: scale(0.95);
+}
+
+.nav-toggle:active .nav-toggle__bar {
+  background: var(--clr-accent);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   MENU MOBILE - GAVETA LATERAL MELHORADA
+   ──────────────────────────────────────────────────────────── */
+
+.nav-mobile {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  pointer-events: none;
+}
+
+.nav-mobile.aberto {
+  display: block;
+  pointer-events: auto;
+}
+
+/* Overlay com animação de fade melhorada */
+.nav-mobile__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  opacity: 0;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity;
+}
+
+.nav-mobile.aberto .nav-mobile__overlay {
+  opacity: 1;
+}
+
+/* Painel lateral com animação spring */
+.nav-mobile__painel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: min(85vw, 320px);
+  height: 100%;
+  background: linear-gradient(135deg, var(--clr-surface) 0%, var(--clr-surface-alt) 100%);
+  border-left: 2px solid var(--clr-primary);
+  box-shadow: -8px 0 32px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: calc(var(--navbar-height) + var(--space-lg)) var(--space-lg) var(--space-xl);
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  overflow-x: hidden;
+  will-change: transform;
+  
+  /* Scroll personalizado */
+  scrollbar-width: thin;
+  scrollbar-color: var(--clr-primary) var(--clr-surface-alt);
+}
+
+.nav-mobile__painel::-webkit-scrollbar {
+  width: 6px;
+}
+
+.nav-mobile__painel::-webkit-scrollbar-track {
+  background: var(--clr-surface-alt);
+}
+
+.nav-mobile__painel::-webkit-scrollbar-thumb {
+  background: var(--clr-primary);
+  border-radius: var(--radius-pill);
+}
+
+.nav-mobile.aberto .nav-mobile__painel {
+  transform: translateX(0);
+}
+
+/* Links do menu mobile - Melhorados */
+.nav-mobile__links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.nav-mobile__links li {
+  opacity: 0;
+  transform: translateX(20px);
+  animation: slideInMenuItem 0.4s ease forwards;
+}
+
+/* Animação em cascata para os itens */
+.nav-mobile__links li:nth-child(1) { animation-delay: 0.05s; }
+.nav-mobile__links li:nth-child(2) { animation-delay: 0.1s; }
+.nav-mobile__links li:nth-child(3) { animation-delay: 0.15s; }
+.nav-mobile__links li:nth-child(4) { animation-delay: 0.2s; }
+
+@keyframes slideInMenuItem {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.nav-mobile__links li a {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--clr-text);
+  transition: all 0.25s ease;
+  display: block;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  position: relative;
+  overflow: hidden;
+  
+  /* Melhor área de toque */
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+/* Efeito de brilho no hover */
+.nav-mobile__links li a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--clr-primary), var(--clr-accent));
+  transition: width 0.3s ease;
+}
+
+.nav-mobile__links li a:hover {
+  color: var(--clr-primary);
+  background: rgba(192, 57, 43, 0.08);
+  padding-left: calc(var(--space-md) + 8px);
+}
+
+.nav-mobile__links li a:hover::before {
+  width: 100%;
+}
+
+/* Link ativo (página atual) */
+.nav-mobile__links li a.ativo {
+  color: var(--clr-primary);
+  background: rgba(192, 57, 43, 0.12);
+  border-left: 3px solid var(--clr-primary);
+}
+
+/* Botões de autenticação no menu mobile */
+.nav-mobile__action {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: auto;
+  padding-top: var(--space-lg);
+  border-top: 2px solid var(--clr-border);
+}
+
+.nav-mobile__action .btn-login,
+.nav-mobile__action .btn-cadastro {
+  width: 100%;
+  justify-content: center;
+  padding: 0.8rem 1.5rem;
+  font-size: 0.95rem;
+  min-height: 52px;
+  text-align: center;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: slideUpButton 0.4s ease forwards;
+}
+
+.nav-mobile__action .btn-login {
+  animation-delay: 0.25s;
+}
+
+.nav-mobile__action .btn-cadastro {
+  animation-delay: 0.3s;
+}
+
+@keyframes slideUpButton {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Bloqueio de scroll no body */
+body.nav-mobile-aberto {
+  overflow: hidden;
+  padding-right: var(--scrollbar-width, 0px);
+}
+
+/* Header info no menu mobile (opcional - mostra nome do usuário logado) */
+.nav-mobile__user-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  background: rgba(192, 57, 43, 0.1);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-md);
+}
+
+.nav-mobile__user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--clr-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--clr-text);
+  flex-shrink: 0;
+}
+
+.nav-mobile__user-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--clr-text);
+}
+
+.nav-mobile__user-email {
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+}
+
+
+/* ────────────────────────────────────────────────────────────
+   RESPONSIVIDADE - BREAKPOINTS
+   ──────────────────────────────────────────────────────────── */
+
+/* Mobile pequeno - até 380px */
+@media (max-width: 380px) {
+  .nav-toggle {
+    width: 44px;
+    height: 44px;
+  }
+  
+  .nav-toggle__bar {
+    width: 22px;
+  }
+  
+  .nav-toggle__bar:nth-child(2) {
+    width: 16px;
+  }
+  
+  .nav-mobile__painel {
+    width: 100vw;
+    padding: calc(var(--navbar-height) + var(--space-md)) var(--space-md) var(--space-lg);
+  }
+  
+  .nav-mobile__links li a {
+    font-size: 1.1rem;
+    min-height: 44px;
+  }
+}
+
+/* Mobile - até 480px */
+@media (max-width: 480px) {
+  .nav-toggle {
+    display: flex;
+  }
+  
+  .nav-mobile__painel {
+    width: min(90vw, 300px);
+  }
+}
+
+/* Tablet pequeno - 481px a 600px */
+@media (min-width: 481px) and (max-width: 600px) {
+  .nav-toggle {
+    display: flex;
+  }
+}
+
+/* Tablet - 601px a 767px */
+@media (min-width: 601px) and (max-width: 767px) {
+  .nav-toggle {
+    display: flex;
+  }
+}
+
+/* Tablet grande e Desktop - 768px+ */
+@media (min-width: 768px) {
+  .nav-toggle {
+    display: none;
+  }
+  
+  .nav-mobile {
+    display: none !important;
+  }
+  
+  body.nav-mobile-aberto {
+    overflow: auto;
+    padding-right: 0;
+  }
+}
+
+/* Ajuste para telas com notch/dynamic island */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .nav-mobile__painel {
+    padding-top: calc(var(--navbar-height) + var(--space-lg) + env(safe-area-inset-top));
+    padding-bottom: calc(var(--space-xl) + env(safe-area-inset-bottom));
+  }
+  
+  .nav-toggle {
+    margin-right: env(safe-area-inset-right);
+  }
 }
 
 
@@ -276,36 +690,24 @@ header {
 }
 
 
-/* ── 6. BANNER PRINCIPAL (100% × 400px) ──────────────────── */
-/*
-   Dimensões fixas:
-     largura : 100%
-     altura  : 400px  (var --banner-height)
-   Imagem usa object-fit: cover para preencher sem distorção.
-   Overlay com gradiente para fundir com o background.
-*/
+/* ── 6. BANNER PRINCIPAL ──────────────────────────────────── */
 .banner-principal {
   position: relative;
   width: 100%;
-  height: var(--banner-height); /* 400px */
+  height: var(--banner-height);
   overflow: hidden;
 }
 
 .banner-principal::after {
-  /*
-     Overlay degradê — de baixo para cima.
-     A parte inferior funde completamente com --clr-bg (#0d0d0d),
-     criando a ilusão de que o banner "dissolve" no fundo da página.
-  */
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to top,
-    var(--clr-bg) 0%,        /* fundo sólido na borda inferior */
-    rgba(13,13,13,0.72) 25%, /* transição forte */
-    rgba(13,13,13,0.18) 60%, /* meio transparente */
-    transparent 100%         /* topo completamente transparente */
+    var(--clr-bg) 0%,
+    rgba(13,13,13,0.72) 25%,
+    rgba(13,13,13,0.18) 60%,
+    transparent 100%
   );
   pointer-events: none;
   z-index: 1;
@@ -319,22 +721,14 @@ header {
 
 .banner-principal img {
   width: 100%;
-  height: 100%; /* 400px */
+  height: 100%;
   object-fit: cover;
   object-position: center;
   transition: transform var(--transition-slow);
 }
 
 
-
-
 /* ── 7. GRID DE CATEGORIAS ────────────────────────────────── */
-/*
-   Grade de 3 colunas iguais.
-   .card-promo--lg ocupa as 3 colunas (1 grande no topo).
-   .card-promo--sm ocupa 1 coluna cada (3 pequenos lado a lado abaixo).
-   Resultado visual: [    grande    ] / [sm] [sm] [sm]
-*/
 .categorias {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -348,13 +742,7 @@ header {
 }
 
 
-/* ── 8. CARDS DE CATEGORIA ───────────────────────────────── */
-/*
-   card-promo--lg : largura total (2 colunas) × 340px de altura
-   card-promo--sm : 1 coluna × 260px de altura
-   Imagem: fix 3 — ocupa ~70% da altura do card
-   card-label: fix 3 — texto vermelho na faixa escura inferior
-*/
+/* ── 8. CARDS DE CATEGORIA ────────────────────────────────── */
 .card-promo {
   position: relative;
   display: flex;
@@ -372,39 +760,38 @@ header {
     border-color var(--transition-base);
 }
 
-/* Card GRANDE — ocupa as 3 colunas */
 .card-promo--lg {
   grid-column: span 3;
   height: 300px;
 }
 
-/* Card PEQUENO — 1 coluna cada */
 .card-promo--sm {
   grid-column: span 1;
   height: 280px;
 }
 
-.card-promo:hover {
-  transform: translateY(-6px) scale(1.012);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--clr-primary);
+/* Desativa hover com transform em touch (evita "stuck hover" no mobile) */
+@media (hover: hover) {
+  .card-promo:hover {
+    transform: translateY(-6px) scale(1.012);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--clr-primary);
+  }
 }
 
-/* Imagem do card — fix 3: maior, ocupa ~72% */
 .card-promo img {
   width: 100%;
-  flex: 1;               /* cresce para preencher o espaço disponível */
+  flex: 1;
   object-fit: cover;
   object-position: center;
   min-height: 0;
   transition: transform var(--transition-slow);
 }
 
-.card-promo:hover img {
-  transform: scale(1.06);
+@media (hover: hover) {
+  .card-promo:hover img { transform: scale(1.06); }
 }
 
-/* Faixa escura inferior com o nome — fix 3 */
 .card-label {
   display: block;
   flex-shrink: 0;
@@ -413,19 +800,20 @@ header {
   font-size: 1.25rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--clr-accent-light);            /* vermelho */
-  background: var(--clr-surface);      /* fundo escuro */
+  color: var(--clr-accent-light);
+  background: var(--clr-surface);
   border-top: 2px solid var(--clr-border);
   text-align: center;
   transition: color var(--transition-fast), background var(--transition-fast);
 }
 
-.card-promo:hover .card-label {
-  color: var(--clr-primary);
-  background: var(--clr-surface-alt);
+@media (hover: hover) {
+  .card-promo:hover .card-label {
+    color: var(--clr-primary);
+    background: var(--clr-surface-alt);
+  }
 }
 
-/* Faixa de destaque no topo ao hover */
 .card-promo::before {
   content: '';
   position: absolute;
@@ -438,12 +826,12 @@ header {
   opacity: 0;
   transition: opacity var(--transition-base);
 }
-.card-promo:hover::before {
-  opacity: 1;
+@media (hover: hover) {
+  .card-promo:hover::before { opacity: 1; }
 }
 
 
-/* ── 10. RODAPÉ — fix 6: centralizado, logo maior ────────── */
+/* ── 10. RODAPÉ ───────────────────────────────────────────── */
 footer {
   background: var(--clr-footer-bg);
   color: var(--clr-footer-text);
@@ -453,14 +841,13 @@ footer {
 .footer-container {
   display: flex;
   align-items: center;
-  justify-content: center;          /* centraliza o conjunto */
+  justify-content: center;
   gap: var(--space-xl);
   max-width: 1280px;
   margin: 0 auto;
   padding: var(--space-xl) var(--space-lg);
 }
 
-/* Logo do footer — fix 6: maior */
 .footer-logo {
   display: flex;
   align-items: center;
@@ -472,11 +859,8 @@ footer {
   object-fit: contain;
   transition: opacity var(--transition-fast);
 }
-.footer-logo:hover img {
-  opacity: 0.8;
-}
+.footer-logo:hover img { opacity: 0.8; }
 
-/* Linha divisória vertical */
 .footer-divider {
   width: 1.5px;
   height: 130px;
@@ -484,10 +868,7 @@ footer {
   flex-shrink: 0;
 }
 
-/* Coluna "Veja mais" — fix 6: centralizada verticalmente */
-.footer-links {
-  min-width: 160px;
-}
+.footer-links { min-width: 160px; }
 
 .footer-links h3 {
   font-family: var(--font-display);
@@ -511,6 +892,9 @@ footer {
   font-size: 0.87rem;
   color: var(--clr-footer-muted);
   transition: color var(--transition-fast), padding-left var(--transition-fast);
+  /* tap target maior no mobile */
+  display: block;
+  padding: 4px 0;
 }
 
 .footer-links ul li a:hover {
@@ -518,7 +902,6 @@ footer {
   padding-left: 4px;
 }
 
-/* Rodapé inferior — copyright */
 .footer-bottom {
   text-align: center;
   padding: var(--space-md) var(--space-lg);
@@ -531,10 +914,29 @@ footer {
 
 /* ── 11. RESPONSIVIDADE ───────────────────────────────────── */
 
+/* ── Mobile pequeno — até 380px ───────────────────────────── */
+@media (max-width: 380px) {
+  :root {
+    --banner-height: 220px;
+    --navbar-height: 64px;
+    --space-lg: 1rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+  }
+
+  .logo img { height: 72px; }
+
+  .btn-login,
+  .btn-cadastro {
+    font-size: 0.68rem;
+    padding: 0.35rem 0.7rem;
+  }
+}
+
 /* ── Mobile — até 480px ────────────────────────────────────── */
 @media (max-width: 480px) {
   :root {
-    --banner-height: 280px;
+    --banner-height: 260px;
     --navbar-height: 70px;
   }
 
@@ -543,15 +945,14 @@ footer {
     gap: var(--space-sm);
   }
 
-  .logo img { height: 100px; }
+  .logo img { height: 80px; }
 
+  /* oculta links e botões de desktop */
   .nav-links { display: none; }
+  .nav-action { display: none; }
 
-  .btn-login,
-  .btn-cadastro {
-    font-size: 0.72rem;
-    padding: 0.4rem 0.8rem;
-  }
+  /* exibe o botão hamburguer */
+  .nav-toggle { display: flex; }
 
   /* Mobile: todos em 1 coluna */
   .categorias {
@@ -563,7 +964,7 @@ footer {
   .card-promo--lg,
   .card-promo--sm {
     grid-column: span 1;
-    height: 220px;
+    height: 200px;
   }
 
   /* Footer em coluna */
@@ -577,19 +978,48 @@ footer {
     width: 80px;
     height: 1.5px;
   }
-  .footer-logo img { height: 100px; }
+  .footer-logo img { height: 90px; }
 }
 
-/* ── Tablet — 481px a 767px ───────────────────────────────── */
-@media (min-width: 481px) and (max-width: 767px) {
+/* ── Tablet pequeno — 481px a 600px ───────────────────────── */
+@media (min-width: 481px) and (max-width: 600px) {
   :root {
-    --banner-height: 420px;
+    --banner-height: 320px;
+    --navbar-height: 74px;
+  }
+
+  .nav-links { display: none; }
+  .nav-action { display: none; }
+  .nav-toggle { display: flex; }
+
+  .categorias {
+    grid-template-columns: repeat(2, 1fr);
+    margin-top: -60px;
+    padding: 0 var(--space-md);
+  }
+  .card-promo--lg {
+    grid-column: span 2;
+    height: 240px;
+  }
+  .card-promo--sm {
+    grid-column: span 1;
+    height: 200px;
+  }
+}
+
+/* ── Tablet — 601px a 767px ───────────────────────────────── */
+@media (min-width: 601px) and (max-width: 767px) {
+  :root {
+    --banner-height: 380px;
     --navbar-height: 80px;
   }
 
-  .logo img { height: 120px; }
+  .nav-links { display: none; }
+  .nav-action { display: none; }
+  .nav-toggle { display: flex; }
 
-  /* Tablet: lg span 2, sm 1 cada — 2 colunas */
+  .logo img { height: 90px; }
+
   .categorias {
     grid-template-columns: repeat(2, 1fr);
     margin-top: -80px;
@@ -597,7 +1027,7 @@ footer {
   }
   .card-promo--lg {
     grid-column: span 2;
-    height: 300px;
+    height: 280px;
   }
   .card-promo--sm {
     grid-column: span 1;
@@ -610,21 +1040,46 @@ footer {
     gap: var(--space-lg);
     padding: var(--space-xl) var(--space-md);
   }
+  .footer-logo img { height: 110px; }
+  .footer-divider { height: 90px; }
+}
+
+/* ── Tablet grande — 768px a 1023px ───────────────────────── */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root { --banner-height: 480px; }
+
+  /* esconde hamburguer, mostra links e botões */
+  .nav-toggle { display: none; }
+  .nav-links { display: flex; }
+  .nav-action { display: flex; }
+
+  .nav-links li a { font-size: 0.8rem; }
+  .navbar { gap: var(--space-md); }
+
+  .categorias {
+    margin-top: -100px;
+    padding: 0 var(--space-md);
+  }
+  .card-promo--lg { height: 320px; }
+  .card-promo--sm { height: 250px; }
+
+  .footer-container {
+    gap: var(--space-lg);
+    padding: var(--space-xl) var(--space-md);
+  }
   .footer-logo img { height: 120px; }
   .footer-divider { height: 100px; }
 }
 
-/* ── Desktop — 768px a 1023px ─────────────────────────────── */
-@media (min-width: 768px) and (max-width: 1023px) {
-  :root { --banner-height: 520px; }
-
-  .categorias { margin-top: -100px; }
+/* ── Desktop — 1024px a 1279px ────────────────────────────── */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .categorias { margin-top: -80px; }
   .card-promo--lg { height: 340px; }
-  .card-promo--sm { height: 260px; }
+  .card-promo--sm { height: 270px; }
 }
 
-/* ── Desktop grande — 1024px+ ─────────────────────────────── */
-@media (min-width: 1024px) {
+/* ── Desktop padrão — 1280px+ ─────────────────────────────── */
+@media (min-width: 1280px) {
   .categorias { margin-top: -60px; }
 }
 
@@ -647,14 +1102,11 @@ footer {
   }
 }
 
+
 /* ============================================================
-   PÁGINA SOBRE — cole este bloco no final do style.css
-   Todas as variáveis (cores, fontes, espaços) vêm do :root
-   já definido acima. Não há nenhum valor hardcoded aqui.
+   PÁGINA SOBRE
    ============================================================ */
 
-
-/* ── HERO DA PÁGINA SOBRE ─────────────────────────────────── */
 .sobre-hero {
   position: relative;
   width: 100%;
@@ -665,11 +1117,9 @@ footer {
   overflow: hidden;
 }
 
-
-
 .sobre-hero__titulo {
   font-family: var(--font-display);
-  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-size: clamp(2.2rem, 6vw, 5rem);
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--clr-text);
@@ -677,10 +1127,7 @@ footer {
   margin-bottom: var(--space-sm);
 }
 
-/* palavra em destaque vermelho dentro do título */
-.sobre-hero__titulo span {
-  color: var(--clr-primary);
-}
+.sobre-hero__titulo span { color: var(--clr-primary); }
 
 .sobre-hero__subtitulo {
   font-size: 1rem;
@@ -690,8 +1137,6 @@ footer {
   margin: 0 auto;
 }
 
-
-/* ── CONTAINER PRINCIPAL ──────────────────────────────────── */
 .container-sobre {
   max-width: 860px;
   margin: 0 auto;
@@ -701,9 +1146,6 @@ footer {
   gap: var(--space-xl);
 }
 
-
-/* ── TÍTULO DE SEÇÃO REUTILIZÁVEL ─────────────────────────── */
-/* usado em .historia e .valores */
 .section-titulo {
   font-family: var(--font-display);
   font-size: 1.8rem;
@@ -716,9 +1158,6 @@ footer {
   margin-bottom: var(--space-lg);
 }
 
-
-/* ── SEÇÃO HISTÓRIA ───────────────────────────────────────── */
-/* mesmo visual de card que .card-promo usa */
 .historia {
   background: var(--clr-surface);
   border: 1px solid var(--clr-border);
@@ -729,8 +1168,6 @@ footer {
   overflow: hidden;
 }
 
-
-/* imagem/logo centralizada dentro da história */
 .img-sobre {
   display: block;
   width: 100%;
@@ -756,8 +1193,6 @@ footer {
   font-weight: 700;
 }
 
-
-/* ── SEÇÃO VALORES ────────────────────────────────────────── */
 .valores__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -765,20 +1200,15 @@ footer {
   list-style: none;
 }
 
-/*
-  .card-valor usa .card-promo como base (hover, border, shadow).
-  Aqui só ajustamos o layout interno do card.
-*/
 .card-valor {
   flex-direction: column;
   justify-content: flex-start;
-  height: auto;           /* sobrescreve a altura fixa dos cards do index */
+  height: auto;
   min-height: 160px;
   cursor: default;
   padding-bottom: var(--space-md);
 }
 
-/* reutiliza .card-label já definido — só adiciona padding top */
 .card-valor .card-label {
   border-top: none;
   border-bottom: 2px solid var(--clr-border);
@@ -792,9 +1222,7 @@ footer {
   padding: var(--space-sm) var(--space-md) 0;
 }
 
-
-/* ── RESPONSIVIDADE — PÁGINA SOBRE ───────────────────────── */
-
+/* Responsividade — Sobre */
 @media (max-width: 480px) {
   .sobre-hero { padding: var(--space-xl) var(--space-md); }
 
@@ -805,21 +1233,20 @@ footer {
 
   .historia { padding: var(--space-lg) var(--space-md); }
 
-  /* 1 coluna no mobile */
   .valores__grid { grid-template-columns: 1fr; }
+
+  .section-titulo { font-size: 1.4rem; }
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
-  /* 2 colunas no tablet */
   .valores__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+
 /* ============================================================
-   PÁGINA CHECKOUT — cole este bloco no final do style.css
+   PÁGINA CHECKOUT
    ============================================================ */
 
-
-/* ── LAYOUT PRINCIPAL — dois painéis lado a lado ─────────── */
 .container-checkout {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -830,8 +1257,6 @@ footer {
   padding: 0 var(--space-lg);
 }
 
-
-/* ── PAINEL FORMULÁRIO ────────────────────────────────────── */
 .checkout-form {
   background: var(--clr-surface);
   border: 1px solid var(--clr-border);
@@ -842,8 +1267,6 @@ footer {
   overflow: hidden;
 }
 
-
-
 .checkout-form__desc {
   font-size: 0.92rem;
   color: var(--clr-text-muted);
@@ -851,8 +1274,7 @@ footer {
   margin-top: calc(var(--space-xs) * -1);
 }
 
-
-/* ── CAMPOS DO FORMULÁRIO ─────────────────────────────────── */
+/* Campos do formulário */
 .campo {
   display: flex;
   flex-direction: column;
@@ -872,7 +1294,7 @@ footer {
   width: 100%;
   padding: 0.7rem 1rem;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 1rem;           /* 1rem evita zoom no iOS */
   color: var(--clr-text);
   background: var(--clr-surface-alt);
   border: 1px solid var(--clr-border);
@@ -881,6 +1303,9 @@ footer {
   transition:
     border-color var(--transition-fast),
     box-shadow   var(--transition-fast);
+  /* melhora a aparência nativa no mobile */
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .campo__input::placeholder { color: var(--clr-text-muted); }
@@ -890,17 +1315,13 @@ footer {
   box-shadow: 0 0 0 3px var(--clr-primary-glow);
 }
 
-/* remove seta padrão do select no Firefox/Chrome */
-.campo__select { appearance: none; cursor: pointer; }
+.campo__select { cursor: pointer; }
 
-/* estado de erro no campo — adicionado pelo JS */
 .campo__input.campo--erro {
   border-color: var(--clr-primary);
   box-shadow: 0 0 0 3px var(--clr-primary-glow);
 }
 
-
-/* ── MENSAGEM DE ERRO ─────────────────────────────────────── */
 .checkout-erro {
   font-size: 0.88rem;
   color: var(--clr-primary);
@@ -911,8 +1332,6 @@ footer {
   margin-bottom: var(--space-md);
 }
 
-
-/* ── BOTÃO SUBMIT — estende .btn-cadastro ────────────────── */
 .checkout-submit {
   width: 100%;
   justify-content: center;
@@ -921,25 +1340,18 @@ footer {
   margin-top: var(--space-sm);
 }
 
-
-/* ── PAINEL RESUMO ────────────────────────────────────────── */
+/* Painel resumo */
 .checkout-resumo {
   background: var(--clr-surface);
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-lg);
   padding: var(--space-xl);
   box-shadow: var(--shadow-card);
-  position: relative;
-  overflow: hidden;
-  /* fica grudado no topo enquanto o form cresce */
   position: sticky;
   top: calc(var(--navbar-height) + var(--space-md));
+  overflow: hidden;
 }
 
-
-
-
-/* ── LISTA DE ITENS DO RESUMO ─────────────────────────────── */
 .resumo-lista {
   list-style: none;
   display: flex;
@@ -948,10 +1360,9 @@ footer {
   margin-bottom: var(--space-lg);
   max-height: 320px;
   overflow-y: auto;
-  padding-right: var(--space-xs); /* evita que a scrollbar cubra texto */
+  padding-right: var(--space-xs);
 }
 
-/* scrollbar fina no painel de resumo */
 .resumo-lista::-webkit-scrollbar { width: 4px; }
 .resumo-lista::-webkit-scrollbar-track { background: transparent; }
 .resumo-lista::-webkit-scrollbar-thumb {
@@ -959,7 +1370,6 @@ footer {
   border-radius: var(--radius-pill);
 }
 
-/* cada item — estrutura gerada pelo JS */
 .resumo-item {
   display: grid;
   grid-template-columns: 1fr auto auto;
@@ -971,7 +1381,6 @@ footer {
 }
 
 .resumo-item:last-child { border-bottom: none; }
-
 .resumo-item__nome { color: var(--clr-text); }
 
 .resumo-item__qtd {
@@ -989,8 +1398,6 @@ footer {
   white-space: nowrap;
 }
 
-
-/* ── CARRINHO VAZIO ───────────────────────────────────────── */
 .resumo-vazio {
   font-size: 0.9rem;
   color: var(--clr-text-muted);
@@ -998,8 +1405,6 @@ footer {
   padding: var(--space-lg) 0;
 }
 
-
-/* ── LINHA DO TOTAL ───────────────────────────────────────── */
 .resumo-total {
   display: flex;
   justify-content: space-between;
@@ -1023,10 +1428,7 @@ footer {
   color: var(--clr-primary);
 }
 
-
-/* ── RESPONSIVIDADE — CHECKOUT ────────────────────────────── */
-
-/* Tablet — empilha os painéis */
+/* Responsividade — Checkout */
 @media (max-width: 860px) {
   .container-checkout {
     grid-template-columns: 1fr;
@@ -1035,14 +1437,14 @@ footer {
     padding: 0 var(--space-md);
   }
 
-  /* resumo sobe antes do form em telas menores */
   .checkout-resumo {
     order: -1;
     position: static;
   }
+
+  .resumo-lista { max-height: 240px; }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
   .checkout-form,
   .checkout-resumo {
@@ -1050,12 +1452,11 @@ footer {
   }
 }
 
+
 /* ============================================================
-   PÁGINA CARDÁPIO — cole este bloco no final do style.css
+   PÁGINA CARDÁPIO
    ============================================================ */
 
-
-/* ── LAYOUT PRINCIPAL — vitrine + carrinho lateral ────────── */
 .container-cardapio {
   display: grid;
   grid-template-columns: 1fr 340px;
@@ -1066,11 +1467,7 @@ footer {
   padding: 0 var(--space-lg);
 }
 
-
-/* ── VITRINE ──────────────────────────────────────────────── */
-.vitrine__cabecalho {
-  margin-bottom: var(--space-lg);
-}
+.vitrine__cabecalho { margin-bottom: var(--space-lg); }
 
 .vitrine__desc {
   font-size: 0.92rem;
@@ -1085,8 +1482,7 @@ footer {
   padding: var(--space-xl) 0;
 }
 
-
-/* ── FILTROS DE CATEGORIA ─────────────────────────────────── */
+/* Filtros */
 .filtros {
   display: flex;
   flex-wrap: wrap;
@@ -1108,6 +1504,8 @@ footer {
   border: 2px solid var(--clr-border);
   border-radius: var(--radius-pill);
   cursor: pointer;
+  /* tap target maior no mobile */
+  min-height: 38px;
   transition:
     color           var(--transition-fast),
     border-color    var(--transition-fast),
@@ -1115,13 +1513,14 @@ footer {
     transform       var(--transition-fast);
 }
 
-.filtro-btn:hover {
-  color: var(--clr-text);
-  border-color: rgba(255,255,255,0.3);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .filtro-btn:hover {
+    color: var(--clr-text);
+    border-color: rgba(255,255,255,0.3);
+    transform: translateY(-1px);
+  }
 }
 
-/* botão de categoria ativo — mesmo padrão do .btn-cadastro */
 .filtro-btn--ativo {
   color: var(--clr-text);
   background: var(--clr-primary);
@@ -1129,31 +1528,22 @@ footer {
   box-shadow: var(--shadow-btn);
 }
 
-.filtro-btn--ativo:hover {
-  background: var(--clr-primary-dark);
-  border-color: var(--clr-primary-dark);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .filtro-btn--ativo:hover {
+    background: var(--clr-primary-dark);
+    border-color: var(--clr-primary-dark);
+    transform: translateY(-1px);
+  }
 }
 
-
-/* ── GRADE DE PRODUTOS ────────────────────────────────────── */
-/*
-   auto-fill para responsividade natural:
-   mínimo var(--card-width-min) = 250px, máximo var(--card-width-max) = 280px.
-   Reutiliza as variáveis já declaradas no :root do style.css.
-*/
+/* Grade de produtos */
 .grade-produtos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(var(--card-width-min), 1fr));
   gap: var(--space-md);
 }
 
-
-/* ── CARD DE PRODUTO ──────────────────────────────────────── */
-/*
-   Herda toda a estética de .card-promo (hover, borda, sombra,
-   faixa superior). Apenas o layout interno é redefinido.
-*/
+/* Card de produto */
 .card-produto {
   display: flex;
   flex-direction: column;
@@ -1180,18 +1570,18 @@ footer {
   z-index: 2;
 }
 
-.card-produto:hover {
-  transform: translateY(-5px) scale(1.01);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--clr-primary);
+@media (hover: hover) {
+  .card-produto:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--clr-primary);
+  }
+  .card-produto:hover::before { opacity: 1; }
 }
 
-.card-produto:hover::before { opacity: 1; }
-
-/* imagem — mesma altura de --card-img-height = 150px */
 .card-produto__img-wrap {
   width: 100%;
-  height: var(--card-img-height); /* 150px */
+  height: var(--card-img-height);
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -1204,11 +1594,10 @@ footer {
   transition: transform var(--transition-slow);
 }
 
-.card-produto:hover .card-produto__img {
-  transform: scale(1.06);
+@media (hover: hover) {
+  .card-produto:hover .card-produto__img { transform: scale(1.06); }
 }
 
-/* área de texto */
 .card-produto__info {
   display: flex;
   flex-direction: column;
@@ -1233,7 +1622,6 @@ footer {
   flex: 1;
 }
 
-/* rodapé do card — preço + botão */
 .card-produto__rodape {
   display: flex;
   align-items: center;
@@ -1251,7 +1639,7 @@ footer {
   color: var(--clr-accent);
 }
 
-/* botão Adicionar — variante compacta do .btn-cadastro */
+/* Botão Adicionar */
 .btn-adicionar {
   display: inline-flex;
   align-items: center;
@@ -1267,6 +1655,8 @@ footer {
   border-radius: var(--radius-pill);
   cursor: pointer;
   box-shadow: var(--shadow-btn);
+  /* tap target no mobile */
+  min-height: 36px;
   transition:
     background      var(--transition-base),
     color           var(--transition-base),
@@ -1274,18 +1664,19 @@ footer {
     transform       var(--transition-fast);
 }
 
-.btn-adicionar:hover {
-  background: transparent;
-  color: var(--clr-primary);
-  border-color: var(--clr-primary);
-  box-shadow: 0 0 0 4px var(--clr-primary-glow);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .btn-adicionar:hover {
+    background: transparent;
+    color: var(--clr-primary);
+    border-color: var(--clr-primary);
+    box-shadow: 0 0 0 4px var(--clr-primary-glow);
+    transform: translateY(-1px);
+  }
 }
 
 .btn-adicionar:active { transform: translateY(0); }
 
-
-/* ── CARRINHO LATERAL ─────────────────────────────────────── */
+/* Carrinho lateral */
 .carrinho-lateral {
   background: var(--clr-surface);
   border: 1px solid var(--clr-border);
@@ -1297,10 +1688,6 @@ footer {
   overflow: hidden;
 }
 
-
-
-
-/* ── LISTA DE ITENS DO CARRINHO ───────────────────────────── */
 .itens-carrinho {
   list-style: none;
   display: flex;
@@ -1310,6 +1697,8 @@ footer {
   overflow-y: auto;
   margin-bottom: var(--space-md);
   padding-right: var(--space-xs);
+  /* scroll suave no mobile */
+  -webkit-overflow-scrolling: touch;
 }
 
 .itens-carrinho::-webkit-scrollbar { width: 4px; }
@@ -1349,7 +1738,6 @@ footer {
   white-space: nowrap;
 }
 
-/* controles de quantidade + remover */
 .item-carrinho__controles {
   display: flex;
   align-items: center;
@@ -1360,8 +1748,8 @@ footer {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 32px;          /* tap target maior no mobile */
+  height: 32px;
   font-size: 1rem;
   font-weight: 700;
   color: var(--clr-text);
@@ -1374,25 +1762,26 @@ footer {
     border-color  var(--transition-fast);
 }
 
-.item-carrinho__qtd-btn:hover {
-  background: var(--clr-primary);
-  border-color: var(--clr-primary);
+@media (hover: hover) {
+  .item-carrinho__qtd-btn:hover {
+    background: var(--clr-primary);
+    border-color: var(--clr-primary);
+  }
 }
 
 .item-carrinho__qtd {
   font-size: 0.9rem;
   font-weight: 700;
   color: var(--clr-text);
-  min-width: 20px;
+  min-width: 24px;
   text-align: center;
 }
 
-/* botão Remover — ghost vermelho compacto */
 .btn-remover {
   margin-left: auto;
   display: inline-flex;
   align-items: center;
-  padding: 0.22rem 0.65rem;
+  padding: 0.3rem 0.75rem;
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 700;
@@ -1403,20 +1792,22 @@ footer {
   border: 1px solid var(--clr-primary);
   border-radius: var(--radius-pill);
   cursor: pointer;
+  /* tap target */
+  min-height: 32px;
   transition:
     background    var(--transition-fast),
     color         var(--transition-fast),
     transform     var(--transition-fast);
 }
 
-.btn-remover:hover {
-  background: var(--clr-primary);
-  color: var(--clr-text);
-  transform: translateY(-1px);
+@media (hover: hover) {
+  .btn-remover:hover {
+    background: var(--clr-primary);
+    color: var(--clr-text);
+    transform: translateY(-1px);
+  }
 }
 
-
-/* ── ESTADO VAZIO DO CARRINHO ─────────────────────────────── */
 .carrinho-vazio {
   font-size: 0.88rem;
   color: var(--clr-text-muted);
@@ -1426,8 +1817,6 @@ footer {
   margin-bottom: var(--space-md);
 }
 
-
-/* ── RODAPÉ DO CARRINHO — total + botão ───────────────────── */
 .resumo-carrinho {
   display: flex;
   flex-direction: column;
@@ -1457,15 +1846,15 @@ footer {
   color: var(--clr-primary);
 }
 
-/* botão Finalizar — reutiliza .btn-cadastro, só ajusta largura */
 .btn-finalizar {
   width: 100%;
   justify-content: center;
   text-align: center;
   padding: 0.65rem 1.25rem;
+  /* tap target */
+  min-height: 48px;
 }
 
-/* estado desabilitado — JS adiciona quando carrinho vazio */
 .btn-finalizar[disabled],
 .btn-finalizar.desabilitado {
   opacity: 0.4;
@@ -1473,10 +1862,7 @@ footer {
   box-shadow: none;
 }
 
-
-/* ── RESPONSIVIDADE — CARDÁPIO ────────────────────────────── */
-
-/* Tablet — carrinho sobe acima da vitrine */
+/* Responsividade — Cardápio */
 @media (max-width: 900px) {
   .container-cardapio {
     grid-template-columns: 1fr;
@@ -1490,10 +1876,9 @@ footer {
     position: static;
   }
 
-  .itens-carrinho { max-height: 220px; }
+  .itens-carrinho { max-height: 200px; }
 }
 
-/* Mobile */
 @media (max-width: 480px) {
   .grade-produtos {
     grid-template-columns: 1fr;
@@ -1502,14 +1887,16 @@ footer {
   .carrinho-lateral {
     padding: var(--space-lg) var(--space-md);
   }
+
+  /* cards com imagem um pouco menor no mobile */
+  :root { --card-img-height: 130px; }
 }
 
+
 /* ============================================================
-   PÁGINAS LOGIN / CADASTRO — cole no final do style.css
+   PÁGINAS LOGIN / CADASTRO
    ============================================================ */
 
-
-/* ── PÁGINA INTEIRA — centraliza o card verticalmente ─────── */
 .auth-page {
   display: flex;
   align-items: center;
@@ -1518,8 +1905,6 @@ footer {
   padding: var(--space-xl) var(--space-lg);
 }
 
-
-/* ── CARD CENTRAL ─────────────────────────────────────────── */
 .auth-card {
   width: 100%;
   max-width: 440px;
@@ -1536,15 +1921,7 @@ footer {
   gap: var(--space-sm);
 }
 
-
-
-
-
-/* ── LOGO DENTRO DO CARD ──────────────────────────────────── */
-.auth-card__logo {
-  display: block;
-  margin-bottom: var(--space-sm);
-}
+.auth-card__logo { display: block; margin-bottom: var(--space-sm); }
 
 .auth-card__logo img {
   height: 80px;
@@ -1553,11 +1930,8 @@ footer {
   opacity: 0.9;
   transition: opacity var(--transition-fast);
 }
-
 .auth-card__logo:hover img { opacity: 0.7; }
 
-
-/* ── TEXTOS DO CARD ───────────────────────────────────────── */
 .auth-card__titulo {
   font-family: var(--font-display);
   font-size: 1.9rem;
@@ -1575,13 +1949,6 @@ footer {
   margin-bottom: var(--space-sm);
 }
 
-
-/* ── FORMULÁRIO ───────────────────────────────────────────── */
-/*
-   Reutiliza .campo, .campo__label e .campo__input
-   já definidos na seção CHECKOUT do style.css.
-   Aqui só ajustamos o container do form.
-*/
 .auth-form {
   width: 100%;
   display: flex;
@@ -1589,22 +1956,16 @@ footer {
   gap: 0;
 }
 
-
-/* ── BOTÃO SUBMIT ─────────────────────────────────────────── */
-/*
-   Estende .btn-cadastro (já definido na navbar).
-   Só sobrescreve largura e margem.
-*/
 .auth-submit {
   width: 100%;
   justify-content: center;
   padding: 0.72rem 1.5rem;
   font-size: 0.95rem;
   margin-top: var(--space-md);
+  /* tap target */
+  min-height: 48px;
 }
 
-
-/* ── RODAPÉ DO CARD — link para a outra página ────────────── */
 .auth-card__rodape {
   font-size: 0.85rem;
   color: var(--clr-text-muted);
@@ -1616,24 +1977,24 @@ footer {
   color: var(--clr-primary);
   font-weight: 600;
   transition: color var(--transition-fast);
+  /* tap target */
+  display: inline-block;
+  padding: 4px 0;
 }
-
 .auth-card__link:hover { color: var(--clr-accent); }
 
-
-/* ── RESPONSIVIDADE ───────────────────────────────────────── */
+/* Responsividade — Auth */
 @media (max-width: 480px) {
   .auth-page { padding: var(--space-lg) var(--space-md); }
-  .auth-card  { padding: var(--space-lg) var(--space-md); }
+  .auth-card { padding: var(--space-lg) var(--space-md); }
   .auth-card__titulo { font-size: 1.5rem; }
 }
 
+
 /* ============================================================
-   PÁGINA CONFIRMAÇÃO — cole no final do style.css
+   PÁGINA CONFIRMAÇÃO
    ============================================================ */
 
-
-/* ── PÁGINA — centraliza o card ───────────────────────────── */
 .confirmacao-page {
   display: flex;
   align-items: center;
@@ -1642,8 +2003,6 @@ footer {
   padding: var(--space-xl) var(--space-lg);
 }
 
-
-/* ── CARD CENTRAL ─────────────────────────────────────────── */
 .confirmacao-card {
   width: 100%;
   max-width: 480px;
@@ -1661,10 +2020,6 @@ footer {
   text-align: center;
 }
 
-
-
-
-/* ── ÍCONE DE CHECK ───────────────────────────────────────── */
 .confirmacao-check {
   width: 72px;
   height: 72px;
@@ -1681,11 +2036,9 @@ footer {
   margin-bottom: var(--space-sm);
 }
 
-
-/* ── TEXTOS ───────────────────────────────────────────────── */
 .confirmacao-titulo {
   font-family: var(--font-display);
-  font-size: 2.2rem;
+  font-size: clamp(1.6rem, 5vw, 2.2rem);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--clr-text);
@@ -1710,8 +2063,6 @@ footer {
   max-width: 340px;
 }
 
-
-/* ── BLOCO DO NÚMERO DO PEDIDO ────────────────────────────── */
 .confirmacao-numero {
   display: flex;
   flex-direction: column;
@@ -1732,49 +2083,42 @@ footer {
   color: var(--clr-text-muted);
 }
 
-/* número grande — JS injeta o valor aqui */
 .confirmacao-numero__valor {
   font-family: var(--font-display);
-  font-size: 3rem;
+  font-size: clamp(2rem, 8vw, 3rem);
   letter-spacing: 0.18em;
   color: var(--clr-primary);
   line-height: 1;
-  min-height: 3rem; /* reserva espaço antes do JS carregar */
+  min-height: 3rem;
 }
 
-
-/* ── BOTÃO ────────────────────────────────────────────────── */
-/* estende .btn-cadastro, só ajusta largura */
 .confirmacao-btn {
   width: 100%;
   justify-content: center;
   text-align: center;
   margin-top: var(--space-sm);
+  min-height: 48px;
 }
 
-
-/* ── RESPONSIVIDADE ───────────────────────────────────────── */
+/* Responsividade — Confirmação */
 @media (max-width: 480px) {
   .confirmacao-page { padding: var(--space-lg) var(--space-md); }
-  .confirmacao-card  { padding: var(--space-lg) var(--space-md); }
-  .confirmacao-titulo { font-size: 1.7rem; }
-  .confirmacao-numero__valor { font-size: 2.2rem; }
+  .confirmacao-card { padding: var(--space-lg) var(--space-md); }
 }
 
+
 /* ============================================================
-   NAVBAR — Estado logado (adicionado pelo navbar.js)
+   NAVBAR — Estado logado
    ============================================================ */
 
-/* Saudação "Olá, Nome" na navbar */
 .nav-usuario__saudacao {
   font-family: var(--font-body);
   font-size: 0.85rem;
   font-weight: 500;
   color: var(--clr-text-muted);
-  white-space: nowrap;                   /* evita quebra de linha */
+  white-space: nowrap;
 }
 
-/* Botão "Sair" — reutiliza .btn-cadastro com cor neutra */
 .nav-usuario__sair {
   background: transparent;
   color: var(--clr-text-muted);
@@ -1790,7 +2134,7 @@ footer {
 
 
 /* ============================================================
-   PERFIL — Página do usuário (perfil.html)
+   PERFIL — Página do usuário
    ============================================================ */
 
 .perfil-page {
@@ -1800,7 +2144,6 @@ footer {
   min-height: calc(100vh - var(--navbar-height) - 260px);
 }
 
-/* ── Cabeçalho do perfil ─────────────────────────────────── */
 .perfil-header {
   display: flex;
   align-items: center;
@@ -1812,7 +2155,6 @@ footer {
   margin-bottom: var(--space-xl);
 }
 
-/* Avatar circular com ícone SVG */
 .perfil-avatar {
   flex-shrink: 0;
   width: 72px;
@@ -1825,15 +2167,10 @@ footer {
   justify-content: center;
   color: var(--clr-primary);
 }
-.perfil-avatar svg {
-  width: 38px;
-  height: 38px;
-}
+.perfil-avatar svg { width: 38px; height: 38px; }
 
-/* Nome e e-mail do usuário */
-.perfil-info {
-  flex: 1;                               /* ocupa o espaço restante entre avatar e botão */
-}
+.perfil-info { flex: 1; }
+
 .perfil-info__nome {
   font-family: var(--font-display);
   font-size: 1.6rem;
@@ -1841,13 +2178,13 @@ footer {
   color: var(--clr-text);
   margin-bottom: 0.2rem;
 }
+
 .perfil-info__email {
   font-family: var(--font-body);
   font-size: 0.9rem;
   color: var(--clr-text-muted);
 }
 
-/* Botão "Sair da conta" no cabeçalho */
 .perfil-sair {
   flex-shrink: 0;
   font-size: 0.8rem;
@@ -1860,7 +2197,6 @@ footer {
   background: rgba(255,255,255,0.05);
 }
 
-/* ── Histórico de pedidos ─────────────────────────────────── */
 .perfil-historico__titulo {
   font-family: var(--font-display);
   font-size: 1.4rem;
@@ -1869,7 +2205,6 @@ footer {
   margin-bottom: var(--space-lg);
 }
 
-/* Mensagem de "nenhum pedido ainda" */
 .sem-pedidos {
   text-align: center;
   padding: var(--space-xl) var(--space-lg);
@@ -1877,27 +2212,23 @@ footer {
   border: 1px solid var(--clr-border);
   border-radius: var(--radius-lg);
 }
-.sem-pedidos__emoji {
-  font-size: 3rem;
-  margin-bottom: var(--space-sm);
-}
+
+.sem-pedidos__emoji { font-size: 3rem; margin-bottom: var(--space-sm); }
+
 .sem-pedidos__texto {
   font-family: var(--font-body);
   color: var(--clr-text-muted);
   margin-bottom: var(--space-lg);
 }
-.sem-pedidos__btn {
-  display: inline-flex;
-}
 
-/* Lista de cards de pedidos */
+.sem-pedidos__btn { display: inline-flex; }
+
 .historico-lista {
   display: flex;
   flex-direction: column;
   gap: var(--space-md);
 }
 
-/* Card individual de pedido */
 .historico-card {
   background: var(--clr-surface);
   border: 1px solid var(--clr-border);
@@ -1905,11 +2236,11 @@ footer {
   overflow: hidden;
   transition: border-color var(--transition-base);
 }
-.historico-card:hover {
-  border-color: rgba(255,255,255,0.14);
+
+@media (hover: hover) {
+  .historico-card:hover { border-color: rgba(255,255,255,0.14); }
 }
 
-/* Cabeçalho do card: número + mesa à esquerda, data à direita */
 .historico-card__header {
   display: flex;
   justify-content: space-between;
@@ -1919,17 +2250,20 @@ footer {
   gap: var(--space-sm);
   flex-wrap: wrap;
 }
+
 .historico-card__meta {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
 }
+
 .historico-card__numero {
   font-family: var(--font-display);
   font-size: 1.1rem;
   letter-spacing: 0.04em;
   color: var(--clr-primary);
 }
+
 .historico-card__mesa {
   font-family: var(--font-body);
   font-size: 0.78rem;
@@ -1939,17 +2273,18 @@ footer {
   padding: 0.2rem 0.6rem;
   border-radius: var(--radius-pill);
 }
+
 .historico-card__data {
   font-family: var(--font-body);
   font-size: 0.8rem;
   color: var(--clr-text-muted);
 }
 
-/* Lista de itens dentro do card */
 .historico-itens {
   list-style: none;
   padding: var(--space-sm) var(--space-lg);
 }
+
 .historico-item {
   display: flex;
   align-items: center;
@@ -1959,24 +2294,25 @@ footer {
   font-family: var(--font-body);
   font-size: 0.88rem;
 }
-.historico-item:last-child {
-  border-bottom: none;
-}
+
+.historico-item:last-child { border-bottom: none; }
+
 .historico-item__qtd {
   color: var(--clr-accent);
   font-weight: 700;
   min-width: 28px;
 }
+
 .historico-item__nome {
   flex: 1;
   color: var(--clr-text);
 }
+
 .historico-item__preco {
   color: var(--clr-text-muted);
   font-size: 0.84rem;
 }
 
-/* Rodapé do card: total do pedido */
 .historico-card__footer {
   display: flex;
   justify-content: space-between;
@@ -1985,6 +2321,7 @@ footer {
   background: var(--clr-surface-alt);
   border-top: 1px solid var(--clr-border);
 }
+
 .historico-card__total-label {
   font-family: var(--font-body);
   font-size: 0.82rem;
@@ -1992,6 +2329,7 @@ footer {
   text-transform: uppercase;
   letter-spacing: 0.06em;
 }
+
 .historico-card__total-valor {
   font-family: var(--font-display);
   font-size: 1.15rem;
@@ -1999,16 +2337,290 @@ footer {
   color: var(--clr-text);
 }
 
-/* ── Responsivo: mobile ──────────────────────────────────── */
+/* Responsividade — Perfil */
 @media (max-width: 600px) {
-  .perfil-header {
-    flex-wrap: wrap;
+  .perfil-page {
+    padding: var(--space-lg) var(--space-md);
   }
+  .perfil-header { flex-wrap: wrap; }
   .perfil-sair {
     width: 100%;
     justify-content: center;
   }
-  .historico-card__header {
+  .historico-card__header { flex-direction: column; }
+  .historico-itens { padding: var(--space-sm) var(--space-md); }
+  .historico-card__footer { padding: var(--space-sm) var(--space-md); }
+
+  .perfil-info__nome { font-size: 1.3rem; }
+}
+
+/* ============================================================
+   CARRINHO MOBILE - BARRA INFERIOR FIXA E PAINEL EXPANSÍVEL
+   ============================================================ */
+
+/* Por padrão, escondemos os elementos mobile no desktop */
+.carrinho-mobile__barra,
+.carrinho-mobile__painel,
+.carrinho-mobile__overlay {
+  display: none;
+}
+
+/* Só ativamos em telas pequenas (mobile) */
+@media (max-width: 900px) {
+
+  /* Esconde o carrinho lateral original no mobile */
+  .carrinho-lateral {
+    display: none !important;
+  }
+
+  /* 1. BARRA INFERIOR FIXA */
+  .carrinho-mobile__barra {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 72px; /* Altura generosa para tap target */
+    background: var(--clr-surface);
+    border-top: 2px solid var(--clr-primary);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+    padding: 0 var(--space-lg);
+    z-index: 90; /* Acima do conteúdo, abaixo do menu mobile (150) */
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .carrinho-mobile__barra:active {
+    background: var(--clr-surface-alt);
+  }
+
+  .carrinho-mobile__info {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+  }
+
+  .carrinho-mobile__icone {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  /* Ícone de sacola/carrinho (SVG via emoji ou background) */
+  .carrinho-mobile__icone svg {
+    width: 28px;
+    height: 28px;
+    fill: var(--clr-text);
+  }
+
+  /* Badge de quantidade */
+  .carrinho-mobile__badge {
+    position: absolute;
+    top: -8px;
+    right: -12px;
+    background: var(--clr-accent);
+    color: var(--clr-text-invert);
+    font-size: 0.75rem;
+    font-weight: 700;
+    min-width: 22px;
+    height: 22px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    border: 2px solid var(--clr-surface);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+
+  .carrinho-mobile__texto {
+    display: flex;
     flex-direction: column;
+  }
+
+  .carrinho-mobile__label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--clr-text-muted);
+    line-height: 1.2;
+  }
+
+  .carrinho-mobile__total {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    letter-spacing: 0.04em;
+    color: var(--clr-primary);
+    line-height: 1.1;
+  }
+
+  .carrinho-mobile__seta {
+    color: var(--clr-text-muted);
+    font-size: 1.8rem;
+    line-height: 1;
+    transition: transform var(--transition-base);
+  }
+
+  /* 2. OVERLAY ESCURO */
+  .carrinho-mobile__overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 140;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-slow);
+  }
+
+  /* 3. PAINEL DESLIZANTE (Modal inferior) */
+  .carrinho-mobile__painel {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 70vh; /* Máximo de 70% da altura da tela */
+    background: var(--clr-surface);
+    border-top-left-radius: var(--radius-lg);
+    border-top-right-radius: var(--radius-lg);
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.6);
+    z-index: 150;
+    transform: translateY(100%);
+    transition: transform var(--transition-slow);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-top: 2px solid var(--clr-primary);
+  }
+
+  /* Cabeçalho do painel */
+  .carrinho-mobile__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--clr-border);
+    flex-shrink: 0;
+  }
+
+  .carrinho-mobile__titulo {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--clr-text);
+  }
+
+  .carrinho-mobile__fechar {
+    background: transparent;
+    border: none;
+    color: var(--clr-text-muted);
+    font-size: 2rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 8px;
+    transition: color var(--transition-fast);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .carrinho-mobile__fechar:hover {
+    color: var(--clr-primary);
+  }
+
+  /* Lista de itens (scrollável) */
+  .carrinho-mobile__itens {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Rodapé do painel (Total + Botão finalizar) */
+  .carrinho-mobile__footer {
+    flex-shrink: 0;
+    padding: var(--space-md) var(--space-lg);
+    border-top: 1px solid var(--clr-border);
+    background: var(--clr-surface-alt);
+  }
+
+  .carrinho-mobile__resumo {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-md);
+  }
+
+  .carrinho-mobile__resumo-label {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--clr-text-muted);
+  }
+
+  .carrinho-mobile__resumo-valor {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    letter-spacing: 0.04em;
+    color: var(--clr-primary);
+  }
+
+  .carrinho-mobile__btn-finalizar {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    min-height: 52px;
+  }
+
+  /* Estado ABERTO do painel */
+  .carrinho-mobile--aberto .carrinho-mobile__overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .carrinho-mobile--aberto .carrinho-mobile__painel {
+    transform: translateY(0);
+  }
+
+  .carrinho-mobile--aberto .carrinho-mobile__seta {
+    transform: rotate(180deg);
+  }
+
+  /* Bloqueia scroll do body quando painel está aberto */
+  body.carrinho-mobile-aberto {
+    overflow: hidden;
+  }
+
+  /* Ajusta padding do main para não ficar atrás da barra fixa */
+  .container-cardapio {
+    padding-bottom: 90px !important; /* espaço para a barra */
+  }
+
+  /* Estilo dos itens dentro do painel mobile (similar ao lateral) */
+  .carrinho-mobile__itens .item-carrinho {
+    padding: var(--space-sm) 0;
+  }
+
+  /* Esconde mensagem de vazio padrão se não for necessária, usamos a do painel */
+  .carrinho-mobile__vazio {
+    text-align: center;
+    color: var(--clr-text-muted);
+    padding: var(--space-xl) 0;
+    font-size: 0.95rem;
   }
 }

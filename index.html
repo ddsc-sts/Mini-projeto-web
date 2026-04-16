@@ -6,13 +6,11 @@
     <title>DALEGÉ - Peça Agora</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/png" href="img/icons/favicon.png">
-
 </head>
 <body>
 
     <header>
         <nav class="navbar">
-            <!-- fix 5: logo clicável → index.html -->
             <a href="index.html" class="logo">
                 <img src="img/icons/logo.png" alt="Logo do Restaurante">
             </a>
@@ -22,36 +20,51 @@
                 <li><a href="cardapio.html">Cardápio</a></li>
             </ul>
 
-            <!-- fix 2: dois botões separados -->
+            <!-- Botões desktop -->
             <div class="nav-action">
                 <a href="login.html"    class="btn-login">Entrar</a>
                 <a href="cadastro.html" class="btn-cadastro">Criar conta</a>
             </div>
+
+            <!-- Botão hamburguer (só aparece no mobile via CSS) -->
+            <button class="nav-toggle" aria-label="Abrir menu" aria-expanded="false">
+                <span class="nav-toggle__bar"></span>
+                <span class="nav-toggle__bar"></span>
+                <span class="nav-toggle__bar"></span>
+            </button>
         </nav>
     </header>
+
+    <!-- Menu mobile — gaveta lateral -->
+    <div class="nav-mobile" role="dialog" aria-label="Menu de navegação">
+        <div class="nav-mobile__overlay"></div>
+        <div class="nav-mobile__painel">
+            <ul class="nav-mobile__links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cardapio.html">Cardápio</a></li>
+            </ul>
+            <!-- Botões mobile -->
+            <div class="nav-mobile__action">
+                <a href="login.html"    class="btn-login">Entrar</a>
+                <a href="cadastro.html" class="btn-cadastro">Criar conta</a>
+            </div>
+        </div>
+    </div>
 
     <main>
         <section class="promocoes">
 
             <div class="banner-principal">
-                
-                    <img src="img/banners/banner-principal.png" alt="Promoção do Dia">
-               
+                <img src="img/banners/banner-principal.png" alt="Promoção do Dia">
             </div>
 
-            <!--
-                Layout: 1 grande (topo) + 3 pequenos lado a lado (abaixo)
-                Troque o texto de .card-label para nomear cada categoria
-            -->
             <div class="categorias">
 
-                <!-- 1 grande — largura total -->
                 <a href="cardapio.html" class="card-promo card-promo--lg">
                     <img src="img/banners/banner-catPizza.png" alt="Categoria 1">
                     <span class="card-label">Pizzas</span>
                 </a>
 
-                <!-- 3 pequenos lado a lado -->
                 <a href="cardapio.html" class="card-promo card-promo--sm">
                     <img src="img/banners/banner-sobremesa.png" alt="Categoria 2">
                     <span class="card-label">Pizzas Doces / Sobremesas</span>
@@ -73,7 +86,6 @@
     <footer>
         <div class="footer-container" id="sobre-nos">
 
-            <!-- fix 5 + fix 6: logo grande, centralizado, clicável -->
             <a href="index.html" class="footer-logo">
                 <img src="img/icons/logo.png" alt="Logo do Restaurante">
             </a>
@@ -94,6 +106,9 @@
             <p>&copy; 2026 DALEGÉ. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <script src="js/navbar.js"></script>
+    <script src="js/menu-mobile.js"></script>
 
 </body>
 </html>

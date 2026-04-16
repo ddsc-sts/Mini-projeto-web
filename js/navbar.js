@@ -1,68 +1,99 @@
 /* ============================================================
-   NAVBAR — Controle de estado de autenticação na barra de navegação
+   NAVBAR — Autenticação + Menu Mobile Hamburguer
    Responsabilidades deste arquivo:
      1. Verificar se há um usuário logado no localStorage
      2. Se logado: substituir os botões de login/cadastro pelo painel do usuário
      3. Se não logado: manter os botões originais (já estão no HTML)
      4. Implementar a função de logout (limpar sessão e redirecionar)
-   Uso: inclua este script em TODAS as páginas, antes dos scripts específicos.
+     5. Controlar abertura/fechamento do menu mobile (hamburguer)
+   Uso: inclua este script em TODAS as páginas, antes do </body>.
    ============================================================ */
 
 
 /* ── 1. AGUARDAR O DOM ESTAR PRONTO ──────────────────────── */
-/*
-   DOMContentLoaded garante que o script só executa após o HTML
-   ser completamente analisado. Evita erros de "elemento não encontrado".
-*/
 document.addEventListener("DOMContentLoaded", function () {
 
-  /* ── 2. LER O USUÁRIO LOGADO DO localStorage ─────────── */
-  /*
-     A chave "usuarioLogado" é salva pelo login.js quando a
-     autenticação é bem-sucedida. Contém { nome, email, senha }.
-     Se a chave não existir, getItem retorna null.
-  */
-  const dadosSalvos  = localStorage.getItem("usuarioLogado"); // tenta ler a sessão do usuário
-  const navAction    = document.querySelector(".nav-action");  // div que contém os botões da navbar
 
-  // se não há nenhum dos dois, não há nada a fazer — encerra
-  if (!navAction) return;
+  /* ══════════════════════════════════════════════════════════
+     BLOCO A — AUTENTICAÇÃO
+     Verifica localStorage e troca botões se usuário estiver logado
+     ══════════════════════════════════════════════════════════ */
 
+  const dadosSalvos = localStorage.getItem("usuarioLogado");
 
-  /* ── 3. EXIBIR PAINEL DO USUÁRIO (logado) ────────────── */
-  if (dadosSalvos) {
+  // Seleciona TANTO o container do desktop quanto o do mobile
+  const navActions = document.querySelectorAll(".nav-action, .nav-mobile__action");
 
-    const usuario = JSON.parse(dadosSalvos); // converte a string JSON de volta para objeto
+  if (navActions.length > 0 && dadosSalvos) {
 
-    // pega apenas o primeiro nome para exibição compacta na navbar
+    const usuario      = JSON.parse(dadosSalvos);
     const primeiroNome = usuario.nome.split(" ")[0];
 
-    /*
-       Substitui os botões "Entrar" e "Criar conta" por:
-         - saudação com o primeiro nome do usuário
-         - link "Meu Perfil" → perfil.html
-         - botão "Sair" que chama logout()
-    */
-    navAction.innerHTML = `
+    const painelLogadoHTML = `
       <span class="nav-usuario__saudacao">Olá, ${primeiroNome}</span>
       <a href="perfil.html" class="btn-login nav-usuario__perfil">Meu Perfil</a>
       <button class="btn-cadastro nav-usuario__sair" onclick="logout()">Sair</button>
     `;
+
+    navActions.forEach(nav => {
+      nav.innerHTML = painelLogadoHTML;
+    });
   }
 
-  /* Se dadosSalvos for null (não logado), o HTML original com
-     os botões "Entrar" e "Criar conta" permanece intacto. */
+
+  /* ══════════════════════════════════════════════════════════
+     BLOCO B — MENU MOBILE (hamburguer)
+     Só executa se os elementos existirem na página
+     ══════════════════════════════════════════════════════════ */
+
+  const toggle    = document.querySelector(".nav-toggle");
+  const navMobile = document.querySelector(".nav-mobile");
+  const overlay   = document.querySelector(".nav-mobile__overlay");
+
+  // Se não há menu mobile nesta página, encerra aqui
+  if (!toggle || !navMobile) return;
+
+  /* Abre / fecha a gaveta lateral */
+  toggle.addEventListener("click", function () {
+    const aberto = navMobile.classList.toggle("aberto");
+    toggle.classList.toggle("aberto", aberto);
+    toggle.setAttribute("aria-expanded", aberto);
+    document.body.style.overflow = aberto ? "hidden" : ""; // trava scroll do fundo
+  });
+
+  /* Fecha ao clicar no overlay escuro */
+  if (overlay) {
+    overlay.addEventListener("click", fecharMenu);
+  }
+
+  /* Fecha ao clicar em qualquer link do menu */
+  document.querySelectorAll(".nav-mobile__links a").forEach(function (link) {
+    link.addEventListener("click", fecharMenu);
+  });
+
+  /* Fecha ao clicar nos botões de auth do menu mobile */
+  document.querySelectorAll(".nav-mobile__action a, .nav-mobile__action button").forEach(function (btn) {
+    btn.addEventListener("click", fecharMenu);
+  });
+
+  /* Fecha com a tecla Escape */
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") fecharMenu();
+  });
+
+  /* Função auxiliar: fecha e limpa tudo */
+  function fecharMenu() {
+    navMobile.classList.remove("aberto");
+    toggle.classList.remove("aberto");
+    toggle.setAttribute("aria-expanded", false);
+    document.body.style.overflow = "";
+  }
 
 }); // fim do DOMContentLoaded
 
 
-/* ── 4. FUNÇÃO GLOBAL: logout ────────────────────────────── */
-/*
-   Remove a sessão do usuário do localStorage e redireciona para a
-   página de login. Declarada fora do DOMContentLoaded para que o
-   atributo onclick="logout()" do botão consiga acessá-la no escopo global.
-*/
+/* ── FUNÇÃO GLOBAL: logout ───────────────────────────────── */
 function logout() {
-  localStorage.removeItem("usuarioLogado"); // apaga a chave de sessão — usuário deslogado
-  window.location.href = "login.html";       // redireciona para a tela de login
+  localStorage.removeItem("usuarioLogado");
+  window.location.href = "login.html";
 }

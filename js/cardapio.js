@@ -25,7 +25,7 @@ const produtos = [
     descricao: "Mussarela, calabresa defumada fatiada e cebola.",     // descrição exibida no card
     preco: 54.90,                                                     // preço em reais (número decimal)
     categoria: "pizzas",                                              // chave de categoria usada nos filtros
-    imagem: "img/produtos/pizza-calabresa.jpg"                        // caminho da imagem do produto
+    imagem: "img/produtos/pizza-calabresa.png"                        // caminho da imagem do produto
   },
   {
     id: 2,
@@ -33,7 +33,7 @@ const produtos = [
     descricao: "A clássica pizza de mussarela com orégano.",
     preco: 49.90,
     categoria: "pizzas",
-    imagem: "img/produtos/pizza-mussarela.jpg"
+    imagem: "img/produtos/pizza-mussarela.png"
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ const produtos = [
     descricao: "Frango desfiado, catupiry e azeitona.",
     preco: 57.90,
     categoria: "pizzas",
-    imagem: "img/produtos/pizza-frango.jpg"
+    imagem: "img/produtos/pizza-frango.png"
   },
   {
     id: 4,
@@ -49,7 +49,7 @@ const produtos = [
     descricao: "Chocolate ao leite derretido com granulado.",
     preco: 44.90,
     categoria: "sobremesas",
-    imagem: "img/produtos/pizza-chocolate.jpg"
+    imagem: "img/produtos/pizza-chocolate.png"
   },
   {
     id: 5,
@@ -57,7 +57,7 @@ const produtos = [
     descricao: "Mussarela derretida com goiabada cremosa.",
     preco: 44.90,
     categoria: "sobremesas",
-    imagem: "img/produtos/pizza-romeu-julieta.jpg"
+    imagem: "img/produtos/pizza-romeu-julieta.png"
   },
   {
     id: 6,
@@ -65,7 +65,7 @@ const produtos = [
     descricao: "Lata gelada.",
     preco: 6.90,
     categoria: "bebidas",
-    imagem: "img/produtos/coca-cola.jpg"
+    imagem: "img/produtos/coca-cola.png"
   },
   {
     id: 7,
@@ -73,7 +73,7 @@ const produtos = [
     descricao: "Suco natural feito na hora.",
     preco: 9.90,
     categoria: "bebidas",
-    imagem: "img/produtos/suco-laranja.jpg"
+    imagem: "img/produtos/suco-laranja.png"
   },
   {
     id: 8,
@@ -81,7 +81,7 @@ const produtos = [
     descricao: "Bordas recheadas com catupiry, porção com 8 unidades.",
     preco: 19.90,
     categoria: "acompanhamentos",
-    imagem: "img/produtos/bordinha.jpg"
+    imagem: "img/produtos/bordinhas.png"
   },
   {
     id: 9,
@@ -89,7 +89,7 @@ const produtos = [
     descricao: "Pão de alho artesanal com azeite e ervas finas.",
     preco: 14.90,
     categoria: "acompanhamentos",
-    imagem: "img/produtos/alho-oleo.jpg"
+    imagem: "img/produtos/alho-oleo.png"
   }
 ];
 
@@ -169,7 +169,7 @@ function renderizarVitrine(lista) {
           src="${produto.imagem}"
           alt="${produto.nome}"
           class="card-produto__img"
-          onerror="this.src='img/icons/logo.png'"
+          onerror="this.src='img/icons/produto.png'"
         >
       </div>
       <div class="card-produto__info">
@@ -487,4 +487,216 @@ elBtnFinalizar.addEventListener("click", function(evento) {
   // sessionStorage persiste enquanto a aba do navegador estiver aberta (apagado ao fechar)
   sessionStorage.setItem("carrinho", JSON.stringify(carrinho));
   // após salvar, o comportamento padrão do link <a> redireciona para checkout.html
+
+
 });
+
+/* ── 17. EVENTO: botão "Finalizar" — salvar e ir ao checkout ─ */
+/*
+   Ao clicar no botão de finalizar:
+   - Se o carrinho estiver vazio (botão desabilitado), bloqueia a navegação.
+   - Se o carrinho tiver itens, converte o array para JSON, salva no
+     sessionStorage e permite que o link navegue para checkout.html.
+*/
+elBtnFinalizar.addEventListener("click", function(evento) {
+
+  // verifica se a classe "desabilitado" está presente (carrinho vazio)
+  if (elBtnFinalizar.classList.contains("desabilitado")) {
+    evento.preventDefault(); // cancela o comportamento padrão do link (não redireciona)
+    return;                  // encerra a função — não há itens para finalizar
+  }
+
+  // JSON.stringify() serializa o array de objetos do carrinho para uma string de texto JSON
+  // sessionStorage.setItem() grava essa string com a chave "carrinho"
+  // sessionStorage persiste enquanto a aba do navegador estiver aberta (apagado ao fechar)
+  sessionStorage.setItem("carrinho", JSON.stringify(carrinho));
+  // após salvar, o comportamento padrão do link <a> redireciona para checkout.html
+});
+
+
+/* ─────────────────────────────────────────────────────────────
+   18. MÓDULO: CARRINHO MOBILE (BARRA INFERIOR + PAINEL)
+   Sincroniza automaticamente com o estado do carrinho existente.
+   Utiliza as funções já definidas: renderizarCarrinho,
+   alterarQuantidade, removerDoCarrinho.
+   ──────────────────────────────────────────────────────────── */
+
+(function() {
+    'use strict';
+
+    // Aguarda o DOM estar pronto (garantia extra)
+    function initMobileCart() {
+        // Elementos do Mobile
+        const mobileBarra = document.getElementById('carrinho-mobile-barra');
+        const mobileOverlay = document.getElementById('mobile-overlay');
+        const mobileFechar = document.getElementById('mobile-fechar');
+        const mobileContainer = document.getElementById('carrinho-mobile');
+        
+        // Elementos de exibição
+        const mobileQtdBadge = document.getElementById('mobile-qtd-itens');
+        const mobileTotalBarra = document.getElementById('mobile-total');
+        const mobileTotalPainel = document.getElementById('mobile-total-painel');
+        const mobileListaItens = document.getElementById('mobile-lista-itens');
+        const mobileBtnFinalizar = document.getElementById('mobile-btn-finalizar');
+
+        // Se não estiver em uma página com carrinho, sair
+        if (!mobileContainer || !elListaCarrinho) return;
+
+        // Função para sincronizar dados do carrinho desktop -> mobile
+        function sincronizarCarrinhoMobile() {
+            // 1. Clonar os itens da lista original para a lista mobile
+            const itensOriginais = elListaCarrinho.querySelectorAll('.item-carrinho');
+            mobileListaItens.innerHTML = ''; // Limpa
+
+            if (carrinho.length === 0) {
+                // Mostra mensagem de vazio no painel mobile
+                const msgVazia = document.createElement('p');
+                msgVazia.className = 'carrinho-mobile__vazio';
+                msgVazia.textContent = 'Nenhum item adicionado ainda.';
+                mobileListaItens.appendChild(msgVazia);
+                
+                // Badge zerado
+                if (mobileQtdBadge) mobileQtdBadge.textContent = '0';
+            } else {
+                // Clona cada item
+                itensOriginais.forEach(item => {
+                    const clone = item.cloneNode(true);
+                    mobileListaItens.appendChild(clone);
+                });
+
+                // Calcula quantidade total de itens
+                const qtdTotal = carrinho.reduce((total, item) => total + item.quantidade, 0);
+                if (mobileQtdBadge) mobileQtdBadge.textContent = qtdTotal;
+            }
+
+            // 2. Atualizar totais
+            const totalTexto = elValorTotal ? elValorTotal.textContent : 'R$ 0,00';
+            if (mobileTotalBarra) mobileTotalBarra.textContent = totalTexto;
+            if (mobileTotalPainel) mobileTotalPainel.textContent = totalTexto;
+
+            // 3. Sincronizar estado do botão finalizar (desabilitado ou não)
+            if (elBtnFinalizar && mobileBtnFinalizar) {
+                const estaDesabilitado = elBtnFinalizar.classList.contains('desabilitado');
+                
+                if (estaDesabilitado) {
+                    mobileBtnFinalizar.classList.add('desabilitado');
+                    mobileBtnFinalizar.style.pointerEvents = 'none';
+                    mobileBtnFinalizar.style.opacity = '0.5';
+                } else {
+                    mobileBtnFinalizar.classList.remove('desabilitado');
+                    mobileBtnFinalizar.style.pointerEvents = '';
+                    mobileBtnFinalizar.style.opacity = '';
+                }
+            }
+        }
+
+        // Função para abrir o painel mobile
+        function abrirPainelMobile() {
+            if (!mobileContainer) return;
+            sincronizarCarrinhoMobile(); // Atualiza antes de mostrar
+            mobileContainer.classList.add('carrinho-mobile--aberto');
+            document.body.classList.add('carrinho-mobile-aberto');
+        }
+
+        // Função para fechar o painel mobile
+        function fecharPainelMobile() {
+            if (!mobileContainer) return;
+            mobileContainer.classList.remove('carrinho-mobile--aberto');
+            document.body.classList.remove('carrinho-mobile-aberto');
+        }
+
+        // --- EVENT LISTENERS ---
+
+        // 1. Abrir ao clicar na barra
+        if (mobileBarra) {
+            mobileBarra.addEventListener('click', abrirPainelMobile);
+        }
+
+        // 2. Fechar ao clicar no overlay
+        if (mobileOverlay) {
+            mobileOverlay.addEventListener('click', fecharPainelMobile);
+        }
+
+        // 3. Fechar ao clicar no botão X
+        if (mobileFechar) {
+            mobileFechar.addEventListener('click', fecharPainelMobile);
+        }
+
+        // 4. Fechar com tecla ESC (acessibilidade)
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobileContainer && mobileContainer.classList.contains('carrinho-mobile--aberto')) {
+                fecharPainelMobile();
+            }
+        });
+
+        // 5. DELEGAÇÃO DE EVENTOS para os botões dentro do painel mobile
+        if (mobileListaItens) {
+            mobileListaItens.addEventListener('click', (e) => {
+                // Botão de Aumentar (+)
+                const btnAumentar = e.target.closest('.item-carrinho__qtd-btn[data-acao="aumentar"]');
+                if (btnAumentar) {
+                    e.preventDefault();
+                    const id = Number(btnAumentar.dataset.id);
+                    alterarQuantidade(id, 'aumentar');
+                    sincronizarCarrinhoMobile(); // Atualiza imediatamente
+                }
+                
+                // Botão de Diminuir (-)
+                const btnDiminuir = e.target.closest('.item-carrinho__qtd-btn[data-acao="diminuir"]');
+                if (btnDiminuir) {
+                    e.preventDefault();
+                    const id = Number(btnDiminuir.dataset.id);
+                    alterarQuantidade(id, 'diminuir');
+                    sincronizarCarrinhoMobile(); // Atualiza imediatamente
+                }
+
+                // Botão Remover
+                const btnRemover = e.target.closest('.btn-remover');
+                if (btnRemover) {
+                    e.preventDefault();
+                    const id = Number(btnRemover.dataset.id);
+                    removerDoCarrinho(id);
+                    sincronizarCarrinhoMobile(); // Atualiza imediatamente
+                }
+            });
+        }
+
+        // 6. Sobrescrever a função renderizarCarrinho original para notificar o mobile
+        const renderizarCarrinhoOriginal = renderizarCarrinho;
+        renderizarCarrinho = function() {
+            renderizarCarrinhoOriginal(); // Chama a função original primeiro
+            sincronizarCarrinhoMobile();  // Depois sincroniza com o mobile
+        };
+
+        // 7. Clique no botão finalizar do mobile (replica a lógica do desktop)
+        if (mobileBtnFinalizar) {
+            mobileBtnFinalizar.addEventListener('click', function(e) {
+                if (mobileBtnFinalizar.classList.contains('desabilitado')) {
+                    e.preventDefault();
+                    return;
+                }
+                // Salva no sessionStorage exatamente como o desktop faz
+                sessionStorage.setItem("carrinho", JSON.stringify(carrinho));
+                // O link href="checkout.html" seguirá normalmente
+            });
+        }
+
+        // Sincronização inicial
+        sincronizarCarrinhoMobile();
+
+        // Ajuste de segurança: se a tela for redimensionada para desktop, fecha o painel mobile
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                fecharPainelMobile();
+            }
+        });
+    }
+
+    // Inicia o módulo quando o DOM estiver pronto
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initMobileCart);
+    } else {
+        initMobileCart();
+    }
+
+})();

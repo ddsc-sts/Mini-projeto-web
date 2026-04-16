@@ -6,6 +6,7 @@
     <title>DALEGÉ - Peça Agora</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="icon" type="image/png" href="img/icons/favicon.png">
+    
 
 </head>
 <body>
@@ -85,49 +86,64 @@
         </section>
 
         <!-- ── CARRINHO LATERAL ────────────────────────────── -->
-        <aside class="carrinho-lateral" id="carrinho-lateral">
-
-            <h2 class="section-titulo">Seu Pedido</h2>
-
-            <!--
-                JS popula esta lista dinamicamente.
-                Estrutura esperada de cada item injetado:
-
-                <li class="item-carrinho" data-id="1">
-                    <div class="item-carrinho__info">
-                        <span class="item-carrinho__nome">Pizza Calabresa</span>
-                        <span class="item-carrinho__preco">R$ 54,90</span>
+                <!-- ── CARRINHO LATERAL (DESKTOP) ────────────────────── -->
+                <aside class="carrinho-lateral" id="carrinho-lateral">
+                    <!-- Conteúdo permanece exatamente como você já tem -->
+                    <h2 class="section-titulo">Seu Pedido</h2>
+                    <ul id="lista-carrinho" class="itens-carrinho"></ul>
+                    <p id="carrinho-vazio" class="carrinho-vazio">Nenhum item adicionado ainda.</p>
+                    <div class="resumo-carrinho">
+                        <div class="resumo-carrinho__linha">
+                            <span class="resumo-carrinho__label">Total</span>
+                            <span class="resumo-carrinho__valor" id="valor-total">R$ 0,00</span>
+                        </div>
+                        <a href="checkout.html" class="btn-cadastro btn-finalizar" id="btn-finalizar">
+                            Avançar para Checkout
+                        </a>
                     </div>
-                    <div class="item-carrinho__controles">
-                        <button class="item-carrinho__qtd-btn" data-acao="diminuir" data-id="1">−</button>
-                        <span   class="item-carrinho__qtd">1</span>
-                        <button class="item-carrinho__qtd-btn" data-acao="aumentar" data-id="1">+</button>
-                        <button class="btn-remover" data-id="1">Remover</button>
+                </aside>
+        
+                <!-- ── CARRINHO MOBILE (BARRA FIXA + PAINEL) ────────────── -->
+                <div class="carrinho-mobile" id="carrinho-mobile">
+                    <!-- Barra inferior fixa -->
+                    <div class="carrinho-mobile__barra" id="carrinho-mobile-barra">
+                        <div class="carrinho-mobile__info">
+                            <div class="carrinho-mobile__icone">
+                                <!-- Ícone de sacola simples usando HTML/CSS (você pode substituir por SVG) -->
+                                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor">
+                                    <path d="M16 6a4 4 0 0 0-8 0H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3zm-4-2a2 2 0 0 1 2 2h-4a2 2 0 0 1 2-2zm6 14H6V8h2v2a1 1 0 0 0 2 0V8h4v2a1 1 0 0 0 2 0V8h2v10z"/>
+                                </svg>
+                                <span class="carrinho-mobile__badge" id="mobile-qtd-itens">0</span>
+                            </div>
+                            <div class="carrinho-mobile__texto">
+                                <span class="carrinho-mobile__label">Ver pedido</span>
+                                <span class="carrinho-mobile__total" id="mobile-total">R$ 0,00</span>
+                            </div>
+                        </div>
+                        <span class="carrinho-mobile__seta">▼</span>
                     </div>
-                </li>
-            -->
-            <ul id="lista-carrinho" class="itens-carrinho">
-                <!-- itens inseridos pelo JS -->
-            </ul>
-
-            <!-- exibido pelo JS quando o carrinho está vazio -->
-            <p id="carrinho-vazio" class="carrinho-vazio">
-                Nenhum item adicionado ainda.
-            </p>
-
-            <div class="resumo-carrinho">
-                <div class="resumo-carrinho__linha">
-                    <span class="resumo-carrinho__label">Total</span>
-                    <!-- valor atualizado pelo JS -->
-                    <span class="resumo-carrinho__valor" id="valor-total">R$ 0,00</span>
+        
+                    <!-- Overlay e Painel Expansível -->
+                    <div class="carrinho-mobile__overlay" id="mobile-overlay"></div>
+                    <div class="carrinho-mobile__painel" id="mobile-painel">
+                        <div class="carrinho-mobile__header">
+                            <h2 class="carrinho-mobile__titulo">Seu Pedido</h2>
+                            <button class="carrinho-mobile__fechar" id="mobile-fechar">&times;</button>
+                        </div>
+                        <div class="carrinho-mobile__itens" id="mobile-lista-itens">
+                            <!-- Itens serão clonados/gerenciados via JS -->
+                        </div>
+                        <div class="carrinho-mobile__footer">
+                            <div class="carrinho-mobile__resumo">
+                                <span class="carrinho-mobile__resumo-label">Total</span>
+                                <span class="carrinho-mobile__resumo-valor" id="mobile-total-painel">R$ 0,00</span>
+                            </div>
+                            <a href="checkout.html" class="btn-cadastro carrinho-mobile__btn-finalizar" id="mobile-btn-finalizar">
+                                Finalizar Pedido
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <!-- JS pode desabilitar este botão quando o carrinho estiver vazio -->
-                <a href="checkout.html" class="btn-cadastro btn-finalizar" id="btn-finalizar">
-                    Avançar para Checkout
-                </a>
-            </div>
-
-        </aside>
 
     </main>
 
@@ -155,6 +171,7 @@
             <p>&copy; 2026 DALEGÉ. Todos os direitos reservados.</p>
         </div>
     </footer>
+    
 
     <script src="js/navbar.js"></script>
     <script src="js/cardapio.js"></script>
