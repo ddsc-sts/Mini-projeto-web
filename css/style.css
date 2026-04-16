@@ -1760,3 +1760,255 @@ footer {
   .confirmacao-titulo { font-size: 1.7rem; }
   .confirmacao-numero__valor { font-size: 2.2rem; }
 }
+
+/* ============================================================
+   NAVBAR — Estado logado (adicionado pelo navbar.js)
+   ============================================================ */
+
+/* Saudação "Olá, Nome" na navbar */
+.nav-usuario__saudacao {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--clr-text-muted);
+  white-space: nowrap;                   /* evita quebra de linha */
+}
+
+/* Botão "Sair" — reutiliza .btn-cadastro com cor neutra */
+.nav-usuario__sair {
+  background: transparent;
+  color: var(--clr-text-muted);
+  border: 2px solid rgba(255,255,255,0.15);
+  font-size: 0.8rem;
+}
+.nav-usuario__sair:hover {
+  background: rgba(255,255,255,0.06);
+  color: var(--clr-text);
+  border-color: rgba(255,255,255,0.3);
+  box-shadow: none;
+}
+
+
+/* ============================================================
+   PERFIL — Página do usuário (perfil.html)
+   ============================================================ */
+
+.perfil-page {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+  min-height: calc(100vh - var(--navbar-height) - 260px);
+}
+
+/* ── Cabeçalho do perfil ─────────────────────────────────── */
+.perfil-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+/* Avatar circular com ícone SVG */
+.perfil-avatar {
+  flex-shrink: 0;
+  width: 72px;
+  height: 72px;
+  background: var(--clr-surface-alt);
+  border: 2px solid var(--clr-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--clr-primary);
+}
+.perfil-avatar svg {
+  width: 38px;
+  height: 38px;
+}
+
+/* Nome e e-mail do usuário */
+.perfil-info {
+  flex: 1;                               /* ocupa o espaço restante entre avatar e botão */
+}
+.perfil-info__nome {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: 0.04em;
+  color: var(--clr-text);
+  margin-bottom: 0.2rem;
+}
+.perfil-info__email {
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--clr-text-muted);
+}
+
+/* Botão "Sair da conta" no cabeçalho */
+.perfil-sair {
+  flex-shrink: 0;
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+  border-color: rgba(255,255,255,0.15);
+}
+.perfil-sair:hover {
+  color: var(--clr-text);
+  border-color: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.05);
+}
+
+/* ── Histórico de pedidos ─────────────────────────────────── */
+.perfil-historico__titulo {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  letter-spacing: 0.05em;
+  color: var(--clr-text);
+  margin-bottom: var(--space-lg);
+}
+
+/* Mensagem de "nenhum pedido ainda" */
+.sem-pedidos {
+  text-align: center;
+  padding: var(--space-xl) var(--space-lg);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-lg);
+}
+.sem-pedidos__emoji {
+  font-size: 3rem;
+  margin-bottom: var(--space-sm);
+}
+.sem-pedidos__texto {
+  font-family: var(--font-body);
+  color: var(--clr-text-muted);
+  margin-bottom: var(--space-lg);
+}
+.sem-pedidos__btn {
+  display: inline-flex;
+}
+
+/* Lista de cards de pedidos */
+.historico-lista {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+/* Card individual de pedido */
+.historico-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  transition: border-color var(--transition-base);
+}
+.historico-card:hover {
+  border-color: rgba(255,255,255,0.14);
+}
+
+/* Cabeçalho do card: número + mesa à esquerda, data à direita */
+.historico-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--clr-border);
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+.historico-card__meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+.historico-card__numero {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  letter-spacing: 0.04em;
+  color: var(--clr-primary);
+}
+.historico-card__mesa {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--clr-text-muted);
+  background: var(--clr-surface-alt);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-pill);
+}
+.historico-card__data {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--clr-text-muted);
+}
+
+/* Lista de itens dentro do card */
+.historico-itens {
+  list-style: none;
+  padding: var(--space-sm) var(--space-lg);
+}
+.historico-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--clr-border);
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+}
+.historico-item:last-child {
+  border-bottom: none;
+}
+.historico-item__qtd {
+  color: var(--clr-accent);
+  font-weight: 700;
+  min-width: 28px;
+}
+.historico-item__nome {
+  flex: 1;
+  color: var(--clr-text);
+}
+.historico-item__preco {
+  color: var(--clr-text-muted);
+  font-size: 0.84rem;
+}
+
+/* Rodapé do card: total do pedido */
+.historico-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--clr-surface-alt);
+  border-top: 1px solid var(--clr-border);
+}
+.historico-card__total-label {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  color: var(--clr-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.historico-card__total-valor {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  color: var(--clr-text);
+}
+
+/* ── Responsivo: mobile ──────────────────────────────────── */
+@media (max-width: 600px) {
+  .perfil-header {
+    flex-wrap: wrap;
+  }
+  .perfil-sair {
+    width: 100%;
+    justify-content: center;
+  }
+  .historico-card__header {
+    flex-direction: column;
+  }
+}

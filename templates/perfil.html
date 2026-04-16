@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - DALEGÉ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" type="image/png" href="img/icons/favicon.png">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">
+                <img src="img/icons/logo.png" alt="Logo do Restaurante">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cardapio.html">Cardápio</a></li>
+            </ul>
+            <div class="nav-action">
+                <!-- navbar.js substitui este conteúdo se o usuário estiver logado -->
+                <a href="login.html"    class="btn-login">Entrar</a>
+                <a href="cadastro.html" class="btn-cadastro">Criar conta</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="perfil-page">
+
+        <!-- ── CABEÇALHO DO PERFIL ─────────────────────────── -->
+        <section class="perfil-header">
+            <div class="perfil-avatar" aria-hidden="true">
+                <!-- ícone de usuário em SVG inline — sem dependência externa -->
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="8"  r="4"  stroke="currentColor" stroke-width="1.8"/>
+                    <path   d="M4 20c0-4 3.582-7 8-7s8 3 8 7"
+                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <div class="perfil-info">
+                <h1 class="perfil-info__nome" id="perfil-nome">
+                    <!-- preenchido pelo perfil.js -->
+                </h1>
+                <p class="perfil-info__email" id="perfil-email">
+                    <!-- preenchido pelo perfil.js -->
+                </p>
+            </div>
+
+            <!-- botão de logout no cabeçalho do perfil para fácil acesso -->
+            <button class="btn-login perfil-sair" onclick="logout()">Sair da conta</button>
+        </section>
+
+
+        <!-- ── HISTÓRICO DE PEDIDOS ────────────────────────── -->
+        <section class="perfil-historico">
+
+            <h2 class="perfil-historico__titulo">Histórico de Pedidos</h2>
+
+            <!-- mensagem exibida quando o usuário nunca fez pedidos — oculta por padrão -->
+            <div class="sem-pedidos" id="sem-pedidos" hidden>
+                <p class="sem-pedidos__emoji" aria-hidden="true">🍕</p>
+                <p class="sem-pedidos__texto">Você ainda não fez nenhum pedido.</p>
+                <a href="cardapio.html" class="btn-cadastro sem-pedidos__btn">Ver cardápio</a>
+            </div>
+
+            <!-- lista de cards de pedidos — preenchida pelo perfil.js -->
+            <div class="historico-lista" id="historico-lista" hidden>
+                <!-- os cards são inseridos aqui pelo perfil.js -->
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="footer-container" id="sobre-nos">
+            <a href="index.html" class="footer-logo">
+                <img src="img/icons/logo.png" alt="Logo do Restaurante">
+            </a>
+            <div class="footer-divider"></div>
+            <div class="footer-links">
+                <h3>Veja mais</h3>
+                <ul>
+                    <li><a href="cardapio.html">Cardápio completo</a></li>
+                    <li><a href="sobre.html">Nossa História</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 DALEGÉ. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- navbar.js deve vir ANTES de perfil.js para que logout() esteja disponível -->
+    <script src="js/navbar.js"></script>
+    <script src="js/perfil.js"></script>
+</body>
+</html>
